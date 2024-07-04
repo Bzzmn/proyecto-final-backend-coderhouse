@@ -20,7 +20,6 @@ const productValidationRules = [
     body('thumbnails').optional().isArray(),
 ];
 
-
 //Get
 router.get('/products', async (req, res) => {
     const limit = parseInt(req.query.limit) || 12;
@@ -75,7 +74,7 @@ router.put('/products/:pid', productValidationRules, async (req, res) => {
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
-    
+
     const id = parseInt(req.params.pid);
 
     try {
