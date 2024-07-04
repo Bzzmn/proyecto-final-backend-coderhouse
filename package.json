@@ -1,0 +1,16 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "backend proyecto final coderhouse",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1", 
+    "start": "node --watch src/app.js"
+  },
+  "author": "Bzzmn",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
