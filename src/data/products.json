@@ -1,0 +1,32 @@
+[
+  {
+    "title": "Laptop Acer Aspire",
+    "description": "Acer Aspire 5 Slim Laptop, 15.6 inches Full HD, AMD Ryzen 3 3200U, Vega 3 Graphics, 4GB DDR4, 128GB SSD, Windows 10 in S Mode, A515-43-R19L, Silver",
+    "code": "A515-43-R19L",
+    "price": 349.99,
+    "status": true,
+    "stock": 25,
+    "category": "Electronics",
+    "id": 1
+  },
+  {
+    "title": "Apple MacBook Pro",
+    "description": "Apple MacBook Pro (16-inch, 16GB RAM, 512GB Storage, 2.6GHz Intel Core i7) - Space Gray",
+    "code": "MBP16-512GB-SG",
+    "price": 2399,
+    "status": true,
+    "stock": 15,
+    "category": "Laptops",
+    "id": 2
+  },
+  {
+    "title": "Sony WH-1000XM4",
+    "description": "Sony WH-1000XM4 Wireless Noise-Canceling Overhead Headphones, Black",
+    "code": "WH1000XM4-BLK",
+    "price": 348,
+    "status": true,
+    "stock": 30,
+    "category": "Headphones",
+    "id": 3
+  }
+]

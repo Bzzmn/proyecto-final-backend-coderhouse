@@ -3,6 +3,73 @@ POST http://localhost:8080/api/products
 Content-Type: application/json
 
 {
-"name": "Cool Product",
-"price": "2000"
+    "title": "Laptop Acer Aspire",
+    "description": "Acer Aspire 5 Slim Laptop, 15.6 inches Full HD, AMD Ryzen 3 3200U, Vega 3 Graphics, 4GB DDR4, 128GB SSD, Windows 10 in S Mode, A515-43-R19L, Silver",
+    "code": "A515-43-R19L",
+    "price": 349.99,
+    "status": true,
+    "stock": 25,
+    "category": "Electronics"
 }
+###
+
+
+POST http://localhost:8080/api/products
+Content-Type: application/json 
+
+{
+    "title": "Apple MacBook Pro",
+    "description": "Apple MacBook Pro (16-inch, 16GB RAM, 512GB Storage, 2.6GHz Intel Core i7) - Space Gray",
+    "code": "MBP16-512GB-SG",
+    "price": 2399.00,
+    "status": true,
+    "stock": 15,
+    "category": "Laptops"
+}
+###
+
+POST http://localhost:8080/api/products
+Content-Type: application/json 
+
+{
+    "title": "Sony WH-1000XM4",
+    "description": "Sony WH-1000XM4 Wireless Noise-Canceling Overhead Headphones, Black",
+    "code": "WH1000XM4-BLK",
+    "price": 348.00,
+    "status": true,
+    "stock": 30,
+    "category": "Headphones"
+}
+
+###
+POST http://localhost:8080/api/products
+Content-Type: application/json 
+
+{
+    "title": "Samsung Galaxy S21",
+    "description": "Samsung Galaxy S21 5G | Factory Unlocked Android Cell Phone | US Version 5G Smartphone | Pro-Grade Camera, 8K Video, 64MP High Res | 128GB, Phantom Gray (SM-G991UZAAXAA)",
+    "code": "SM-G991UZAAXAA",
+    "price": 799.99,
+    "status": true,
+    "stock": 20,
+    "category": "Smartphones"
+}
+
+###
+PUT http://localhost:8080/api/products/4
+Content-Type: application/json 
+
+{
+    "title": "Samsung Galaxy S21",
+    "description": "Samsung Galaxy S21 5G | Factory Unlocked Android Cell Phone | US Version 5G Smartphone | Pro-Grade Camera, 8K Video, 64MP High Res | 128GB, Phantom Gray (SM-G991UZAAXAA)",
+    "code": "SM-G991UZAAXAA",
+    "price": 899.99,
+    "status": true,
+    "stock": 25,
+    "category": "Smartphones"
+}
+
+###
+DELETE http://localhost:8080/api/products/4
+
+
