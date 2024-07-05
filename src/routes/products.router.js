@@ -21,7 +21,7 @@ const productValidationRules = [
 ];
 
 //Get
-router.get('/products', async (req, res) => {
+router.get('/', async (req, res) => {
     const limit = parseInt(req.query.limit) || 12;
     try {
         const data = await fs.readFile(productsFilePath, 'utf-8');
@@ -33,7 +33,7 @@ router.get('/products', async (req, res) => {
     }
 });
 
-router.get('/products/:pid', async (req, res) => {
+router.get('/:pid', async (req, res) => {
     const id = parseInt(req.params.pid);
     try {
         const data = await fs.readFile(productsFilePath, 'utf-8');
@@ -49,7 +49,7 @@ router.get('/products/:pid', async (req, res) => {
 });
 
 //Post
-router.post('/products', productValidationRules, async (req, res) => {
+router.post('/', productValidationRules, async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -69,7 +69,7 @@ router.post('/products', productValidationRules, async (req, res) => {
 });
 
 //Put
-router.put('/products/:pid', productValidationRules, async (req, res) => {
+router.put('/:pid', productValidationRules, async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -97,7 +97,7 @@ router.put('/products/:pid', productValidationRules, async (req, res) => {
 });
 
 //Delete
-router.delete('/products/:pid', async (req, res) => {
+router.delete('/:pid', async (req, res) => {
     const id = parseInt(req.params.pid);
     try {
         const data = await fs.readFile(productsFilePath, 'utf-8');

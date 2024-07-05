@@ -12,7 +12,7 @@ const cartsFilePath = path.join(__dirname, '../data/carts.json');
 
 
 //Post
-router.post('/carts', [ body('products').notEmpty().isArray() ], async (req, res) => {
+router.post('/', [ body('products').notEmpty().isArray() ], async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -32,7 +32,7 @@ router.post('/carts', [ body('products').notEmpty().isArray() ], async (req, res
 
 
 //Get
-router.get('/carts/:cid', async (req, res) => {
+router.get('/:cid', async (req, res) => {
     try {
         const data = await fs.readFile(cartsFilePath, 'utf-8');
         const carts = JSON.parse(data);
@@ -49,7 +49,7 @@ router.get('/carts/:cid', async (req, res) => {
 
 
 //Post
-router.post('/carts/:cid/product/:pid', [ body('quantity').notEmpty().isNumeric() ], async (req, res) => {
+router.post('/:cid/product/:pid', [ body('quantity').notEmpty().isNumeric() ], async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -66,7 +66,7 @@ router.post('/carts/:cid/product/:pid', [ body('quantity').notEmpty().isNumeric(
 
         const product = req.body;
         product.id = parseInt(req.params.pid);
-        
+
         const existingProduct = cart.products.find(product => product.id === parseInt(req.params.pid));
         if (existingProduct) {
             existingProduct.quantity += parseInt(product.quantity);
