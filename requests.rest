@@ -94,5 +94,13 @@ POST http://localhost:8080/api/carts/1/product/3
 Content-Type: application/json
 
 {
-    "quantity": 1
+    "quantity": 2
+}
+
+###
+POST http://localhost:8080/api/carts/1/product/3
+Content-Type: application/json
+
+{
+    "quantity": 2
 }
