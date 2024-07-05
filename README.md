@@ -11,18 +11,7 @@ Este backend está diseñado para gestionar los productos y los carritos de comp
 
 ## Estructura de Carpetas
 
-backend/
-├── src/
-│ ├── data/
-│ │ ├── carts.json
-│ │ └── products.json
-│ ├── routes/
-│ │ ├── carts.router.js
-│ │ └── products.router.js
-│ └── app.js
-├── .gitignore
-├── package.json
-└── requests.rest
+![Estructura de Carpetas](https://general-projects-public.s3.eu-west-3.amazonaws.com/folders.webp)
 
 
 ## Endpoints
