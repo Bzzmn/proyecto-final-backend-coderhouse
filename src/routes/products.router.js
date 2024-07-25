@@ -2,14 +2,11 @@ import { Router } from 'express';
 import fs from 'fs/promises';
 import path from 'path';
 import { body, validationResult } from 'express-validator';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+import __dirname from '../utils.js';
 
 const router = Router();
 
-const productsFilePath = path.join(__dirname, '../data/products.json');
+const productsFilePath = path.join(__dirname, '/data/products.json');
 
 const productValidationRules = [
     body('title').notEmpty().withMessage('Title is required'),
@@ -63,6 +60,9 @@ router.post('/', productValidationRules, async (req, res) => {
         newProduct.id = products.length + 1;
         products.push(newProduct);
         await fs.writeFile(productsFilePath, JSON.stringify(products, null, 2), 'utf-8');
+
+        req.io.emit('post_event', products);
+
         res.status(201).json(newProduct);
     } catch (error) {
         res.status(500).json({ message: 'Error saving new product', error: error.message });
@@ -109,6 +109,9 @@ router.delete('/:pid', async (req, res) => {
         }
         products.splice(id - 1, 1);
         await fs.writeFile(productsFilePath, JSON.stringify(products, null, 2), 'utf-8');
+
+        req.io.emit('delete_event', products);
+
         res.json({message: 'product deleted'});
     } catch (error) {
         res.status(500).json({ message: 'Error deleting product', error: error.message });

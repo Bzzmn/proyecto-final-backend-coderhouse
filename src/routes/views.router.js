@@ -2,15 +2,11 @@
 import { Router } from 'express';
 import fs from 'fs/promises';
 import path from 'path';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+import __dirname from '../utils.js';
 
 const router = Router();
 
-const productsFilePath = path.join(__dirname, '../data/products.json');
-
+const productsFilePath = path.join(__dirname, '/data/products.json');
 
 router.get('/', async (req, res) => {
     try {  
@@ -24,8 +20,8 @@ router.get('/', async (req, res) => {
     }
 });
 
-// router.get('/realtimeproducts') async (req, res) => {
-
-// }
+router.get('/realtimeproducts', (req, res) => {
+    res.render('realtimeproducts', {});
+});
 
 export default router;
