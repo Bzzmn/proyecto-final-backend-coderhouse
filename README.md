@@ -29,7 +29,6 @@ Este backend está diseñado para gestionar los productos y los carritos de comp
 - **POST `/api/carts/:cid/product/:pid`**: Añade o actualiza un producto en un carrito específico.
 
 ## Ejemplos de Test con REST Client
-
 A continuación, se presentan imágenes de cómo realizar las pruebas de los endpoints usando la extensión REST Client. Los archivos `requests.rest` contienen las peticiones preparadas para enviar a los endpoints correspondientes.
 
 ### Test para Crear Producto
@@ -55,3 +54,4 @@ A continuación, se presentan imágenes de cómo realizar las pruebas de los end
 
 
 Estos tests ilustran el uso de la API y cómo interactuar con ella mediante peticiones HTTP. Asegúrate de tener la extensión REST Client instalada en tu editor para poder ejecutar estos ejemplos directamente desde el archivo `requests.rest`.
+

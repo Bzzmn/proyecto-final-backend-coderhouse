@@ -2,12 +2,13 @@ import { Router } from 'express';
 import fs from 'fs/promises';
 import path from 'path';
 import { body, validationResult } from 'express-validator';
-import { fileURLToPath} from 'url';
+import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-
-const router = Router();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
+const router = Router();
+
 const productsFilePath = path.join(__dirname, '../data/products.json');
 
 const productValidationRules = [

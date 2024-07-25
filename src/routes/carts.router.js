@@ -4,12 +4,11 @@ import path from 'path';
 import { body, validationResult } from 'express-validator';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-
-const router = Router();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const cartsFilePath = path.join(__dirname, '../data/carts.json');
 
+const router = Router();
+const cartsFilePath = path.join(__dirname, '../data/carts.json');
 
 //Post
 router.post('/', [ body('products').notEmpty().isArray() ], async (req, res) => {
