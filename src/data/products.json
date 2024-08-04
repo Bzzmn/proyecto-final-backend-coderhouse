@@ -38,5 +38,15 @@
     "stock": 20,
     "category": "Smartphones",
     "id": 4
+  },
+  {
+    "title": "Huawei Z-51",
+    "description": "Smartphone Huawei Z-51",
+    "code": "HW-Z51",
+    "price": "480",
+    "status": true,
+    "stock": "20",
+    "category": "Smartphones",
+    "id": 5
   }
 ]

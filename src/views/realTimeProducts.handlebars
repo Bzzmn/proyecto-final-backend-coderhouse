@@ -1,6 +1,16 @@
 
-<div>
-    <h1>Lista de Productos</h1>
+<div class="container">
+    <h2>Formulario (sugerencia no ideal)</h2>
+        <form id="productForm" action="" class="product-form">
+            <input type="text" id="title" name="title" placeholder="Nombre del producto">
+            <input type="text" id="description" name="description" placeholder="Descripcion del producto">
+            <input type="text" id="code" name="code" placeholder="Codigo del producto">
+            <input type="number" id="price" name="price" placeholder="Precio del producto">
+            <input type="number" id="stock" name="stock" placeholder="Stock del producto">
+            <input type="text" id="category" name="category" placeholder="Categoria del producto">
+            <button id="addProduct">Agregar Producto</button>
+        </form>
+    <h2>Lista de Productos</h2>
     <ul id="productList">
     </ul>
 </div>
@@ -9,3 +19,4 @@
 <script src="/socket.io/socket.io.js"></script>
 {{!-- <script src="/js/index.js"></script> --}}
 <script src="/js/home.js"></script>
+

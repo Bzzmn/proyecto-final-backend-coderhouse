@@ -39,13 +39,21 @@ const server = app.listen(PORT, () => {
 
 const io = new Server(server)
 
-let messages = [];
-
 io.on('connection', (socket) => {
     console.log('New connection', socket.id);
     getProducts().then((products) => {
         socket.emit('products', products);
     });
+
+    socket.on('new_product', async (data) => {
+        let products = await getProducts();
+        console.log(products);
+        let newProduct = data;
+        newProduct.id = products.length + 1;
+        products.push(newProduct);
+        fs.writeFile(productsFilePath, JSON.stringify(products, null, 2));
+        io.sockets.emit('post_event', products);
+    }); 
 });
 
 
