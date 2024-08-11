@@ -4,49 +4,340 @@
     "description": "Acer Aspire 5 Slim Laptop, 15.6 inches Full HD, AMD Ryzen 3 3200U, Vega 3 Graphics, 4GB DDR4, 128GB SSD, Windows 10 in S Mode, A515-43-R19L, Silver",
     "code": "A515-43-R19L",
     "price": 349.99,
-    "status": true,
     "stock": 25,
-    "category": "Electronics",
-    "id": 1
+    "category": "Laptops", 
+    "thumbnails": [
+      "/images/products/acer_aspire.webp"
+    ]
   },
   {
     "title": "Apple MacBook Pro",
     "description": "Apple MacBook Pro (16-inch, 16GB RAM, 512GB Storage, 2.6GHz Intel Core i7) - Space Gray",
     "code": "MBP16-512GB-SG",
     "price": 2399,
-    "status": true,
     "stock": 15,
-    "category": "Laptops",
-    "id": 2
+    "category": "Laptops", 
+    "thumbnails": [
+      "/images/products/macbook_pro.webp"
+    ]
   },
   {
     "title": "Sony WH-1000XM4",
     "description": "Sony WH-1000XM4 Wireless Noise-Canceling Overhead Headphones, Black",
     "code": "WH1000XM4-BLK",
     "price": 348,
-    "status": true,
     "stock": 30,
     "category": "Headphones",
-    "id": 3
+    "thumbnails": [
+      "/images/products/sonywh1000xm4.webp"
+    ]
   },
   {
     "title": "Samsung Galaxy S21",
     "description": "Samsung Galaxy S21 5G | Factory Unlocked Android Cell Phone | US Version 5G Smartphone | Pro-Grade Camera, 8K Video, 64MP High Res | 128GB, Phantom Gray (SM-G991UZAAXAA)",
     "code": "SM-G991UZAAXAA",
     "price": 799.99,
-    "status": true,
     "stock": 20,
-    "category": "Smartphones",
-    "id": 4
+    "category": "Smartphones", 
+    "thumbnails": [
+      "/images/products/samsung-galaxy-s21.webp"
+    ]
   },
   {
-    "title": "Huawei Z-51",
-    "description": "Smartphone Huawei Z-51",
-    "code": "HW-Z51",
-    "price": "480",
-    "status": true,
-    "stock": "20",
-    "category": "Smartphones",
-    "id": 5
+    "title": "Dell XPS 13",
+    "description": "Dell XPS 13 Laptop, 13.3 inches FHD, Intel Core i7, 16GB RAM, 512GB SSD, Windows 10 Home",
+    "code": "XPS13-9310",
+    "price": 1299.99,
+    "stock": 10,
+    "category": "Laptops", 
+    "thumbnails": [
+      "/images/products/dellxps13.webp"
+    ]
+  },
+  {
+    "title": "HP Spectre x360",
+    "description": "HP Spectre x360 2-in-1 Laptop, 13.3 inches FHD Touchscreen, Intel Core i7, 16GB RAM, 512GB SSD, Windows 10 Home",
+    "code": "13-aw2000",
+    "price": 1399.99,
+    "stock": 12,
+    "category": "Laptops", 
+    "thumbnails": [
+      "/images/products/hpspectrex360.webp"
+    ]
+  },
+  {
+    "title": "Microsoft Surface Laptop 4",
+    "description": "Microsoft Surface Laptop 4, 13.5 inches Touchscreen, AMD Ryzen 5, 8GB RAM, 256GB SSD, Windows 10 Home",
+    "code": "1951",
+    "price": 999.99,
+    "stock": 20,
+    "category": "Laptops", 
+    "thumbnails": [
+      "/images/products/mssurfacelaptop.webp"
+    ]
+  },
+  {
+    "title": "Bose QuietComfort 35 II",
+    "description": "Bose QuietComfort 35 II Wireless Bluetooth Headphones, Noise-Cancelling, with Alexa Voice Control - Black",
+    "code": "QC35II-BLK",
+    "price": 299,
+    "stock": 25,
+    "category": "Headphones", 
+    "thumbnails": [
+      "/images/products/bosequietcomfort35ii.webp"
+    ]
+  },
+  {
+    "title": "Sony WH-1000XM3",
+    "description": "Sony WH-1000XM3 Wireless Noise-Canceling Headphones, Black",
+    "code": "WH1000XM3-BLK",
+    "price": 279,
+    "stock": 20,
+    "category": "Headphones", 
+    "thumbnails": [
+      "/images/products/sonywh1000xm3.webp"
+    ]
+  },
+  {
+    "title": "Samsung Galaxy Note 20",
+    "description": "Samsung Galaxy Note 20 5G | Factory Unlocked Android Cell Phone | US Version 5G Smartphone | Pro-Grade Camera, 8K Video, 128GB, Mystic Bronze (SM-N981UZNAXAA)",
+    "code": "SM-N981UZNAXAA",
+    "price": 999.99,
+    "stock": 15,
+    "category": "Smartphones", 
+    "thumbnails": [
+      "/images/products/samsunggalaxynote20.webp"
+    ]
+  },
+  {
+    "title": "Google Pixel 5",
+    "description": "Google Pixel 5 5G | Factory Unlocked Android Cell Phone | US Version | 128GB of Storage | Black",
+    "code": "GD1YQ",
+    "price": 699.99,
+    "stock": 25,
+    "category": "Smartphones", 
+    "thumbnails": [
+      "/images/products/googlepixel5.webp"
+    ]
+  },
+  {
+    "title": "Apple iPhone 12",
+    "description": "Apple iPhone 12, 64GB, Black - Fully Unlocked",
+    "code": "MGJ73LL/A",
+    "price": 799,
+    "stock": 18,
+    "category": "Smartphones", 
+    "thumbnails": [
+      "/images/products/apple_iphone-12.webp"
+    ]
+  },
+  {
+    "title": "OnePlus 8 Pro",
+    "description": "OnePlus 8 Pro Onyx Black, 5G Unlocked Android Smartphone U.S. Version, 12GB RAM+256GB Storage, 120Hz Fluid Display, Quad Camera, Wireless Charge, IP68 Water Resistant, Single SIM",
+    "code": "IN2025",
+    "price": 899.99,
+    "stock": 22,
+    "category": "Smartphones", 
+    "thumbnails": [
+      "/images/products/oneplus8pro.webp"
+    ]
+  },
+  {
+    "title": "Amazon Echo Dot (4th Gen)",
+    "description": "Echo Dot (4th Gen) | Smart speaker with Alexa | Charcoal",
+    "code": "B07XJ8C8F5",
+    "price": 49.99,
+    "stock": 100,
+    "category": "Smart Home", 
+    "thumbnails": [
+      "/images/products/amazonechodot4.webp"
+    ]
+  },
+  {
+    "title": "Google Nest Hub Max",
+    "description": "Google Nest Hub Max - Smart Home Display with Google Assistant - Charcoal",
+    "code": "GA00426-US",
+    "price": 229.99,
+    "stock": 35,
+    "category": "Smart Home", 
+    "thumbnails": [
+      "/images/products/googlenesthubmax.webp"
+    ]
+  },
+  {
+    "title": "Apple iPad Pro",
+    "description": "Apple iPad Pro (12.9-inch, Wi-Fi, 128GB) - Silver (4th Generation)",
+    "code": "MXF92LL/A",
+    "price": 999.99,
+    "stock": 40,
+    "category": "Tablets", 
+    "thumbnails": [
+      "/images/products/appleipadpro.webp"
+    ]
+  },
+  {
+    "title": "Samsung Galaxy Tab S7",
+    "description": "Samsung Galaxy Tab S7 Wi-Fi, Mystic Black - 128 GB",
+    "code": "SM-T870NZKAXAR",
+    "price": 649.99,
+    "stock": 30,
+    "category": "Tablets", 
+    "thumbnails": [
+      "/images/products/samsunggalaxytabs7.webp"
+    ]
+  },
+  {
+    "title": "Microsoft Surface Pro 7",
+    "description": "Microsoft Surface Pro 7 – 12.3\" Touch-Screen – 10th Gen Intel Core i5 – 8GB Memory – 128GB SSD (Latest Model) – Platinum with Black Type Cover",
+    "code": "QWU-00001",
+    "price": 899.99,
+    "stock": 50,
+    "category": "Tablets", 
+    "thumbnails": [
+      "/images/products/mssurfacepro7.webp"
+    ]
+  },
+  {
+    "title": "Lenovo Tab M10 Plus",
+    "description": "Lenovo Tab M10 Plus, 10.3\" FHD Android Tablet, Octa-Core Processor, 4GB RAM, 128GB Storage, Android 9 Pie, Iron Grey",
+    "code": "ZA5T0263US",
+    "price": 229.99,
+    "stock": 25,
+    "category": "Tablets", 
+    "thumbnails": [
+      "/images/products/lenovotabm10pro.webp"
+    ]
+  },
+  {
+    "title": "Canon EOS R5",
+    "description": "Canon EOS R5 Full-Frame Mirrorless Camera with 8K Video, 45 Megapixel Full-Frame CMOS Sensor, DIGIC X Image Processor, Dual Pixel CMOS AF II, 5-Axis In-Body Image Stabilization, Built-in Bluetooth and Wi-Fi",
+    "code": "4147C002",
+    "price": 3899,
+    "stock": 10,
+    "category": "Cameras", 
+    "thumbnails": [
+      "/images/products/canoneosr5.webp"
+    ]
+  },
+  {
+    "title": "Sony A7 III",
+    "description": "Sony A7 III Full-Frame Mirrorless Interchangeable-Lens Camera with 28-70mm Lens",
+    "code": "ILCE7M3K/B",
+    "price": 1998,
+    "stock": 15,
+    "category": "Cameras", 
+    "thumbnails": [
+      "/images/products/sonya7iii.webp"
+    ]
+  },
+  {
+    "title": "Nikon Z6",
+    "description": "Nikon Z6 Full Frame Mirrorless Camera Body with 24-70mm f/4 S Lens and Mount Adapter FTZ",
+    "code": "1598",
+    "price": 2596.95,
+    "stock": 12,
+    "category": "Cameras", 
+    "thumbnails": [
+      "/images/products/nikonz6.webp"
+    ]
+  },
+  {
+    "title": "Fujifilm X-T4",
+    "description": "Fujifilm X-T4 Mirrorless Digital Camera XF16-80mm Lens Kit - Black",
+    "code": "16652855",
+    "price": 2199.95,
+    "stock": 18,
+    "category": "Cameras", 
+    "thumbnails": [
+      "/images/products/fujifilmxt4.webp"
+    ]
+  },
+  {
+    "title": "GoPro HERO9 Black",
+    "description": "GoPro HERO9 Black - Waterproof Action Camera with Front LCD and Touch Rear Screens, 5K Ultra HD Video, 20MP Photos, 1080p Live Streaming, Webcam, Stabilization",
+    "code": "CHDHX-901-XX",
+    "price": 349.98,
+    "stock": 30,
+    "category": "Cameras", 
+    "thumbnails": [
+      "/images/products/gopro-hero-9-black.webp"
+    ]
+  },
+  {
+    "title": "DJI Osmo Pocket",
+    "description": "DJI Osmo Pocket - Handheld 3-Axis Gimbal Stabilizer with Integrated Camera, Attachable to Smartphone, Android, iPhone, Accessory",
+    "code": "CP.ZM.00000097.02",
+    "price": 299,
+    "stock": 25,
+    "category": "Cameras", 
+    "thumbnails": [
+      "/images/products/djiosmopocket.webp"
+    ]
+  },
+  {
+    "title": "PlayStation 5",
+    "description": "PlayStation 5 Console",
+    "code": "3005718",
+    "price": 499.99,
+    "stock": 50,
+    "category": "Gaming", 
+    "thumbnails": [
+      "/images/products/ps5.webp"
+    ]
+  },
+  {
+    "title": "Xbox Series X",
+    "description": "Xbox Series X",
+    "code": "RRT-00001",
+    "price": 499.99,
+    "stock": 45,
+    "category": "Gaming", 
+    "thumbnails": [
+      "/images/products/xboxx.webp"
+    ]
+  },
+  {
+    "title": "Nintendo Switch",
+    "description": "Nintendo Switch with Neon Blue and Neon Red Joy‑Con",
+    "code": "HADSKABAA",
+    "price": 299.99,
+    "stock": 60,
+    "category": "Gaming", 
+    "thumbnails": [
+      "/images/products/nintendoswitch.webp"
+    ]
+  },
+  {
+    "title": "Oculus Quest 2",
+    "description": "Oculus Quest 2 — Advanced All-In-One Virtual Reality Headset — 128 GB",
+    "code": "301-00351-01",
+    "price": 299,
+    "stock": 40,
+    "category": "Gaming", 
+    "thumbnails": [
+      "/images/products/oculus-quest-2.webp"
+    ]
+  },
+  {
+    "title": "Razer Blade 15",
+    "description": "Razer Blade 15 Advanced Gaming Laptop 2020: Intel Core i7-10875H 8-Core, NVIDIA GeForce RTX 2080 Super, 15.6” FHD 300Hz, 16GB RAM, 1TB SSD - CNC Aluminum - Chroma RGB Lighting - Thunderbolt 3 - Black",
+    "code": "RZ09-03305E53-R3U1",
+    "price": 2899.99,
+    "stock": 10,
+    "category": "Laptops", 
+    "thumbnails": [
+      "/images/products/razerblade15.webp"
+    ]
+  },
+  {
+    "title": "Alienware m15 R3",
+    "description": "Alienware m15 R3 15.6inch FHD Gaming Laptop (Lunar Light) Intel Core i7-10750H, 16GB DDR4 RAM, 512GB SSD, NVIDIA GeForce RTX 2070 8GB GDDR6, Windows 10 Home",
+    "code": "AWm15-7283WHT-PUS",
+    "price": 1999.99,
+    "stock": 8,
+    "category": "Laptops", 
+    "thumbnails": [
+      "/images/products/alienwarem15.webp"
+    ]
   }
 ]

@@ -1,68 +1,63 @@
 import express from 'express';
-import handlebars from 'express-handlebars';
-import { Server } from 'socket.io';
+import { create }  from 'express-handlebars';
 import productsRouter from './routes/products.router.js';
 import cartsRouter from './routes/carts.router.js';
 import viewsRouter from './routes/views.router.js';
 import __dirname from './utils.js';
 
-
-import fs from 'fs/promises';
-import path from 'path';
-const productsFilePath = path.join(__dirname, '/data/products.json');
-
-const getProducts = async () => {
-    try{
-        const data = await fs.readFile(productsFilePath, 'utf-8');
-        const products = JSON.parse(data);
-        return products;
-    } catch (error) {
-        console.error(error);
-    }}
-
+import mongoose from 'mongoose';
 
 const app = express();
 const PORT = 8080;
 
-app.engine('handlebars', handlebars.engine());
-app.set('views', __dirname + '/views');
+async function connectToMongoDB() {
+    try {
+        await mongoose.connect('mongodb+srv://alvaroacevedoing:D1g1t4l.mongodb@cluster0.om8br5c.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0');
+        console.log('MongoDB connected');
+    } catch (error) {
+        console.error('Database connection error:', error);
+    }
+};
+connectToMongoDB();
+
+const hbs = create({
+    runtimeOptions: {
+        allowProtoPropertiesByDefault: true,
+        allowProtoMethodsByDefault: true,
+    },
+
+    helpers: {
+        eq: (a, b) => a === b,
+        add: (a, b) => a + b,
+        gt: (a, b) => a > b,
+        lt: (a, b) => a < b,
+        subtract: (a, b) => a - b,
+        multiply: (a, b) => a * b,
+        range: (start, end) => {
+            let array = [];
+            for (let i = start; i <= end; i++) {
+                array.push(i);
+            }
+            return array;
+        },
+    },
+    partialsDir: __dirname + '/views/partials',
+});
+
+app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars')
+app.set('views', __dirname + '/views');
+
 app.use(express.static(__dirname + '/public'));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const server = app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
-
-
-const io = new Server(server)
-
-io.on('connection', (socket) => {
-    console.log('New connection', socket.id);
-    getProducts().then((products) => {
-        socket.emit('products', products);
-    });
-
-    socket.on('new_product', async (data) => {
-        let products = await getProducts();
-        console.log(products);
-        let newProduct = data;
-        newProduct.id = products.length + 1;
-        products.push(newProduct);
-        fs.writeFile(productsFilePath, JSON.stringify(products, null, 2));
-        io.sockets.emit('post_event', products);
-    }); 
-});
-
-
-app.use((req, res, next) => {
-    req.io = io
-    next();
-});
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
 app.use('/', viewsRouter);
 
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
 
