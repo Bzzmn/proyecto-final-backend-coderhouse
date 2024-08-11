@@ -32,10 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
-});
 
-
-document.addEventListener('DOMContentLoaded', () => {
     const removeButtons = document.querySelectorAll('.remove-btn');
 
     removeButtons.forEach(button => {
@@ -66,4 +63,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+
 });

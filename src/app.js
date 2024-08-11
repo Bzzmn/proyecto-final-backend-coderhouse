@@ -4,15 +4,18 @@ import productsRouter from './routes/products.router.js';
 import cartsRouter from './routes/carts.router.js';
 import viewsRouter from './routes/views.router.js';
 import __dirname from './utils.js';
-
+import dotenv from 'dotenv'
 import mongoose from 'mongoose';
+
+dotenv.config();
 
 const app = express();
 const PORT = 8080;
+const MONGO_URI = process.env.MONGODB_URI;
 
 async function connectToMongoDB() {
     try {
-        await mongoose.connect('mongodb+srv://alvaroacevedoing:D1g1t4l.mongodb@cluster0.om8br5c.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0');
+        await mongoose.connect(MONGO_URI);
         console.log('MongoDB connected');
     } catch (error) {
         console.error('Database connection error:', error);
