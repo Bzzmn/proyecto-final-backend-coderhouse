@@ -9,6 +9,9 @@
     "start": "node --watch src/app.js",
     "build:css": "npx tailwindcss -i ./src/styles.css -o ./src/public/css/styles.css"
   },
+  "engines": {
+    "node": "20.x"
+  },
   "author": "Bzzmn",
   "license": "ISC",
   "dependencies": {
