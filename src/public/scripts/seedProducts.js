@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import productModel from '../models/product.model.js';
+import productModel from '../../models/product.model.js';
 import fs from 'fs';
 import path from 'path';
 
@@ -11,7 +11,7 @@ async function loadProducts() {
 
 async function seedProducts() {
     try {
-        await mongoose.connect('mongodb+srv://alvaroacevedoing:D1g1t4l.mongodb@cluster0.om8br5c.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0');
+        await mongoose.connect('mongodb://localhost:27017/ecommerce');
         console.log('MongoDB connected');
 
         const products = await loadProducts();

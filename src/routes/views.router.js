@@ -1,13 +1,11 @@
-
 import { Router } from 'express';
 import productModel from '../models/product.model.js';
 import cartModel from '../models/cart.model.js';
 
 const router = Router();
 
-router.get('/', async (req, res) => {
+router.get('/', async (req, res) =>  {
     try {
-
         const { limit = 10, page = 1, sort, category = 'all', status = 'all'} = req.query;
 
         const filter = {}
@@ -62,6 +60,7 @@ router.get('/', async (req, res) => {
             status: status || 'all',
             limit: limit,
             page: page,
+            user: req.user // Pasar la información del usuario a la vista
         });
     } catch (error) {
         console.error(error);
@@ -69,24 +68,21 @@ router.get('/', async (req, res) => {
     }
 });
 
-
-
 router.get('/product/:id', async (req, res) => {
     try {
         const { id } = req.params;
         const product = await productModel.findById(id);
-        res.render('product', { product });
+        res.render('product', { product, user: req.user });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Error reading products file', error: error.message });
     }
-})
-
+});
 
 router.get('/cart/:cid', async (req, res) => {
     try {
         const { cid } = req.params;
-        const cart = await cartModel.findById(cid)
+        const cart = await cartModel.findById(cid);
 
         if (!cart) {
             return res.status(404).json({ message: 'Cart not found' });
@@ -94,11 +90,29 @@ router.get('/cart/:cid', async (req, res) => {
 
         const total = cart.products.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
 
-        res.render('cart', { cart, total });
+        res.render('cart', { cart, total, user: req.user });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Error reading products file', error: error.message });
     }
+});
+
+router.get('/register', (req, res) => {
+    if (req.user) {
+        return res.redirect('/'); // Redirigir si el usuario ya está autenticado
+    }
+    res.render('register');
+});
+
+router.get('/login', (req, res) => {
+    if (req.user) {
+        return res.redirect('/'); // Redirigir si el usuario ya está autenticado
+    }
+    res.render('login');
+});
+
+router.get('/forgot-password', (req, res) => {
+    res.render('restore-password');
 });
 
 export default router;
