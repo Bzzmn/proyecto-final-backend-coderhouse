@@ -1,85 +1,138 @@
-# Backend para Aplicación de Gestión de Productos y Carritos de Compra
+# Libre Mercado
 
-## Descripción del Backend
-Este backend está diseñado para gestionar los productos y los carritos de compra para un proyecto de comercio electrónico. Su principal responsabilidad es ofrecer una API RESTful a través de la cual se pueden realizar operaciones CRUD (Crear, Leer, Actualizar, Eliminar) sobre productos y carritos. Además, maneja la validación de datos y el almacenamiento de la información en archivos JSON locales. Ahora, también está configurado para trabajar con Handlebars y WebSockets, permitiendo la actualización en tiempo real de las vistas de productos.
+<div style="background-color: white; padding: 20px; display: inline-block; border: 1px solid #ddd;">
+  <img src="/src/public/images/libremercadologo.png" alt="Libre Mercado Logo" width="300" height="auto">
+</div>
+
+## Descripción
+Libre Mercado es un sistema backend para una aplicación de comercio electrónico, diseñado para gestionar productos, carritos de compra y autenticación de usuarios. Proporciona endpoints de API RESTful para operaciones CRUD en productos y carritos, maneja el registro y autenticación de usuarios, e incluye actualizaciones en tiempo real utilizando WebSockets.
 
 ## Tecnologías Utilizadas
-- **Node.js**: Plataforma de ejecución para JavaScript en el servidor.
-- **Express**: Framework para Node.js que simplifica la creación de servidores HTTP.
-- **Express Validator**: Middleware de Express que se utiliza para validar las entradas de las solicitudes.
-- **File System Promises API**: Utilizada para leer y escribir en archivos, permitiendo el manejo de datos de productos y carritos.
-- **Handlebars**: Motor de plantillas para generar HTML dinámicamente en el servidor.
-- **Socket.io**: Biblioteca que permite la comunicación en tiempo real entre clientes y servidores a través de WebSockets.
+- Node.js
+- Express.js
+- MongoDB con Mongoose
+- Handlebars (para renderizado del lado del servidor)
+- Passport.js (para autenticación)
+- JSON Web Tokens (JWT)
+- Tailwind CSS (para estilos)
 
-## Configuración del Proyecto
+## Características Principales
+- Autenticación de usuarios (estrategias local y GitHub)
+- Gestión de productos
+- Funcionalidad de carrito de compras
+- Diseño web responsivo
 
-### Instalación de Dependencias
-Asegúrate de tener instaladas las siguientes dependencias:
+## Instalación
 
-```bash
-npm install express express-handlebars socket.io express-validator
+1. Clonar el repositorio:
+   ```
+   git clone https://github.com/Bzzmn/proyecto-final-backend-coderhouse
+   ```
+2. Instalar dependencias:
+   ```
+   npm install
+   ```
+3. Configurar variables de entorno:
+   Crear un archivo `.env` en el directorio raíz y agregar las siguientes variables:
+   ```
+   PORT=3000
+   MONGODB_URI=tu_cadena_de_conexion_mongodb
+   JWT_SECRET=tu_secreto_jwt
+   GITHUB_CLIENT_ID=tu_id_de_cliente_github
+   GITHUB_CLIENT_SECRET=tu_secreto_de_cliente_github
+   GITHUB_CALLBACK_URL=http://localhost:3000/api/users/github/callback
+   ```
+4. Construir CSS:
+   ```
+   npm run build:css
+   ```
+5. Iniciar el servidor:
+   - Para desarrollo:
+     ```
+     npm run dev
+     ```
+   - Para producción:
+     ```
+     npm start
+     ```
+
+## Estructura de Archivos
+```
+├── src
+│   ├── config
+│   │   └── passport.config.js
+│   ├── models
+│   │   ├── users.model.js
+│   │   ├── products.model.js
+│   │   └── carts.model.js
+│   ├── routes
+│   │   ├── users.router.js
+│   │   ├── products.router.js
+│   │   ├── carts.router.js
+│   │   └── views.router.js
+│   ├── views
+│   │   ├── layouts
+│   │   │   └── main.handlebars
+│   │   ├── 404.handlebars
+│   │   ├── login.handlebars
+│   │   ├── register.handlebars
+│   │   └── restore-password.handlebars
+│   ├── public
+│   │   └── css
+│   │       └── styles.css
+│   ├── app.js
+│   └── utils.js
+
 ```
 
-### Configuración del Servidor
-
-1. **Configurar el servidor para integrar Handlebars**:
-   - En `app.js` se ha configurado el motor de plantillas Handlebars para renderizar vistas.
-
-2. **Instalar y configurar Socket.io**:
-   - Socket.io se ha configurado para permitir la comunicación en tiempo real entre el servidor y los clientes.
-
-### Nuevas Vistas
-Se han creado dos nuevas vistas:
-1. **home.handlebars**:
-   - Contiene una lista de todos los productos agregados hasta el momento.
-
-2. **realTimeProducts.handlebars**:
-   - Vive en el endpoint `/realtimeproducts` en el `views router`.
-   - Contiene la misma lista de productos, pero se actualiza automáticamente mediante WebSockets cada vez que se crea o elimina un producto.
-
-### Emisión de Eventos en Tiempo Real
-- Se ha incluido la instancia del servidor WebSocket en el router de productos para que se genere un `emit` cada vez que se realiza una petición `POST` o `DELETE` a la lista de productos. Esto asegura que la vista de `realTimeProducts` se actualice en tiempo real.
-
-## Estructura de Carpetas
-
-![Estructura de Carpetas](https://general-projects-public.s3.eu-west-3.amazonaws.com/folders.webp)
-
-## Endpoints
+## Endpoints de API
 
 ### Productos
-- **GET `/api/products`**: Devuelve todos los productos con un límite opcional.
-- **GET `/api/products/:pid`**: Devuelve un producto específico por su ID.
-- **POST `/api/products`**: Crea un nuevo producto con validación de datos.
-- **PUT `/api/products/:pid`**: Actualiza un producto existente por su ID.
-- **DELETE `/api/products/:pid`**: Elimina un producto por su ID.
+- GET `/api/products`: Obtener todos los productos
+- GET `/api/products/:pid`: Obtener un producto específico
+- POST `/api/products`: Crear un nuevo producto
+- PUT `/api/products/:pid`: Actualizar un producto
+- DELETE `/api/products/:pid`: Eliminar un producto
 
 ### Carritos
-- **POST `/api/carts`**: Crea un nuevo carrito con validación de datos.
-- **GET `/api/carts/:cid`**: Devuelve un carrito específico por su ID.
-- **POST `/api/carts/:cid/product/:pid`**: Añade o actualiza un producto en un carrito específico.
+- POST `/api/carts`: Crear un nuevo carrito
+- GET `/api/carts/:cid`: Obtener un carrito específico
+- POST `/api/carts/:cid/product/:pid`: Agregar un producto a un carrito
 
-## Ejemplos de Test con REST Client
-A continuación, se presentan imágenes de cómo realizar las pruebas de los endpoints usando la extensión REST Client. Los archivos \`requests.rest\` contienen las peticiones preparadas para enviar a los endpoints correspondientes.
+### Usuarios
+- POST `/api/users/register`: Registrar un nuevo usuario
+- POST `/api/users/login`: Iniciar sesión de usuario
+- GET `/api/users/logout`: Cerrar sesión de usuario
+- POST `/api/users/restore-password`: Restaurar contraseña de usuario
+- GET `/api/users/github`: Autenticación con GitHub
+- GET `/api/users/github/callback`: Callback de autenticación con GitHub
 
-### Test para Crear Producto
-![Test Crear Producto](https://general-projects-public.s3.eu-west-3.amazonaws.com/test_1.webp)
+## Vistas
+- `/`: Página de inicio (listado de productos)
+- `/register`: Página de registro de usuario
+- `/login`: Página de inicio de sesión
+- `/product/:id`: Página de producto individual
+- `/cart/:cid`: Página de carrito de compras
 
-### Test para Obtener Productos
-![Test Obtener Productos](https://general-projects-public.s3.eu-west-3.amazonaws.com/test_2.webp)
+## Manejo de Errores
+La aplicación incluye una página de error 404 personalizada para manejar rutas no encontradas. Además, el servidor envía al frontend las respuestas de errores, que incluyen:
 
-### Test para Actualizar Producto
-![Test Actualizar Producto](https://general-projects-public.s3.eu-west-3.amazonaws.com/test_3.webp)
+- Errores de validación de datos
+- Errores de autenticación
+- Errores de autorización
+- Errores de base de datos
+- Errores de servidor internos
 
-### Test para Eliminar Producto
-![Test Eliminar Producto](https://general-projects-public.s3.eu-west-3.amazonaws.com/test_4.webp)
+## Seguridad
+- Las contraseñas se hashean usando bcrypt antes de almacenarse en la base de datos
+- Se utiliza JWT para mantener las sesiones de usuario
+- Se implementa Passport.js para estrategias de autenticación local y de GitHub
 
-### Test para Creación de Carrito
-![Test Creación de Carrito](https://general-projects-public.s3.eu-west-3.amazonaws.com/test_5.webp)
+## Desarrollo
+Este proyecto utiliza Node.js versión 20.x. Asegúrate de tener la versión correcta instalada antes de ejecutar la aplicación.
 
-### Test para Agregar Producto Adicional a Carrito
-![Test Agregar Producto Adicional a Carrito](https://general-projects-public.s3.eu-west-3.amazonaws.com/test_6.webp)
+## Contribuciones
+Las contribuciones a este proyecto son bienvenidas. Por favor, asegúrate de actualizar las pruebas según corresponda.
 
-### Test para Agregar Producto que ya existe a Carrito
-![Test Agregar Producto que ya existe a Carrito](https://general-projects-public.s3.eu-west-3.amazonaws.com/test_7.webp)
-
-Estos tests ilustran el uso de la API y cómo interactuar con ella mediante peticiones HTTP. Asegúrate de tener la extensión REST Client instalada en tu editor para poder ejecutar estos ejemplos directamente desde el archivo `requests.rest`.
+## Licencia
+Este proyecto está licenciado bajo la Licencia ISC.
