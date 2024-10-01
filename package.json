@@ -7,7 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node --env-file=.env src/app.js",
-    "dev": "node --env-file=.env.development --watch src/app.js",
+    "dev": "nodemon --env-file=.env.development src/app.js",
     "build:css": "npx tailwindcss -i ./src/styles.css -o ./src/public/css/styles.css"
   },
   "engines": {
@@ -34,6 +34,7 @@
     "tailwindcss": "^3.4.9"
   },
   "devDependencies": {
-    "mongodb": "^6.9.0"
+    "mongodb": "^6.9.0",
+    "nodemon": "^3.1.7"
   }
 }
