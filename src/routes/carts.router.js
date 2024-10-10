@@ -1,55 +1,19 @@
 import { Router } from 'express';
 import cartModel from '../models/cart.model.js';
+import { auth } from '../middlewares/authMiddleware.js';
+import { addToCart, getCartQuantity, removeFromCart } from '../controllers/carts.controller.js';
 
 const router = Router();
 
 //Post
-router.post('/', async (req, res) => {
-
-    try {
-        const newCart = new cartModel(req.body);
-        await newCart.save();
-        res.status(201).json(newCart);
-    } catch (error) {
-        res.status(500).json({ message: 'Error saving new cart', error: error.message });
-    }
-});
+router.post('/', auth('user'), addToCart);
+router.get('/quantity', getCartQuantity);
+router.delete('/product/:pid', auth('user'), removeFromCart);
 
 
-//Post by cart id and product id
-router.post('/:cid/product/:pid', async (req, res) => {
-    const cartId = req.params.cid;
-    const productId = req.params.pid;
-    const quantity = req.body.quantity || 1;
-
-    try {
-        const cart = await cartModel.findById(cartId);
-        if (!cart) {
-            return res.status(404).json({message: 'Cart not found'});
-        }
-
-        const existingProductIndex = cart.products.findIndex(item => item.product._id.toString() == productId);
-
-        if (existingProductIndex !== -1) {
-            cart.products[existingProductIndex].quantity += quantity;
-
-        } else {
-            cart.products.push({ product: productId, quantity });
-        }
-
-        await cart.save();
-        res.status(201).json(cart);
-
-    } catch (error) {
-        res.status(500).json({ message: 'Error saving new product in cart', error: error.message });
-    }
-});
-
-//Get
 router.get('/', async (req, res) => {
     try {
         const cart = await cartModel.find()
-        console.log(cart)
         res.status(201).json(cart);
     } catch (error) {
         console.error(error);

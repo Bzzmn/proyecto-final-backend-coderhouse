@@ -3,6 +3,11 @@ import jwt from 'jsonwebtoken';
 
 export const auth = (role) => {
     return (req, res, next) => {
+        
+        if (req.path === '/api/carts/quantity' && req.method === 'GET') {
+            return next();
+        }
+
         passport.authenticate('jwt', { session: false }, (err, user, info) => {
             if (err) {
                 return next(err);
@@ -25,11 +30,14 @@ export const attachUser = (req, res, next) => {
         try {
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
             req.user = decoded.user;
+            res.locals.user = req.user;
         } catch (error) {
             req.user = null;
+            res.locals.user = null;
         }
     } else {
         req.user = null;
+        res.locals.user = null;
     }
     next();
 };

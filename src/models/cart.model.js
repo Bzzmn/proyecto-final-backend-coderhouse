@@ -6,6 +6,7 @@ const cartProductSchema = new mongoose.Schema({
 }); 
 
 const cartSchema = new mongoose.Schema({
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
     products: [cartProductSchema],
     timestamp: { type: Date, default: Date.now },
 });

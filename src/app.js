@@ -10,6 +10,7 @@ import { auth, attachUser } from './middlewares/authMiddleware.js';
 import passport from 'passport';
 import initializePassport from './config/passport.config.js';
 import cookieParser from 'cookie-parser';
+import { helpers } from './helpers/handlebarsHelpers.js';
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -30,33 +31,20 @@ const hbs = create({
         allowProtoPropertiesByDefault: true,
         allowProtoMethodsByDefault: true,
     },
-
-    helpers: {
-        eq: (a, b) => a === b,
-        add: (a, b) => a + b,
-        gt: (a, b) => a > b,
-        lt: (a, b) => a < b,
-        subtract: (a, b) => a - b,
-        multiply: (a, b) => a * b,
-        range: (start, end) => {
-            let array = [];
-            for (let i = start; i <= end; i++) {
-                array.push(i);
-            }
-            return array;
-        },
-    },
+    helpers: helpers,
     partialsDir: __dirname + '/views/partials',
 });
 
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars')
 app.set('views', __dirname + '/views');
+
 app.use(express.static(__dirname + '/public'));
 
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
+
 app.use(attachUser);
 
 initializePassport();
@@ -66,7 +54,7 @@ app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
 app.use('/api/users', usersRouter);
 app.use('/', viewsRouter);
-app.use('/privado', auth('user'), (req, res) => {
+app.use('/current', auth('admin'), (req, res) => {
     res.send('Esta es una vista privada');
 });
 

@@ -50,12 +50,12 @@ Content-Type: application/json
 {
     "products": [
         {
-            "product": "66b6c0c4ee03f4043cc43e98",
+            "product": "66e988ce312e0c20b2edd6d0",
             "quantity": 2
         },
         {
-            "product": "66b6c0c4ee03f4043cc43eb4",
-            "quantity": 1
+            "product": "66e988ce312e0c20b2edd6d2",
+            "quantity": 3
         }
     ]
 }

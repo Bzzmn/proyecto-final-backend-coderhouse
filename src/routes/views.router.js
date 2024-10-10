@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import productModel from '../models/product.model.js';
 import cartModel from '../models/cart.model.js';
+import { auth } from '../middlewares/authMiddleware.js';
 
 const router = Router();
 
@@ -79,21 +80,21 @@ router.get('/product/:id', async (req, res) => {
     }
 });
 
-router.get('/cart/:cid', async (req, res) => {
+router.get('/cart', auth('user'), async (req, res) => {
     try {
-        const { cid } = req.params;
-        const cart = await cartModel.findById(cid);
+        const userId = req.user._id;
+        const cart = await cartModel.findOne({ user: userId }).populate('products.product');
 
         if (!cart) {
-            return res.status(404).json({ message: 'Cart not found' });
+            return res.status(404).json({ message: 'Your cart is empty' });
         }
 
         const total = cart.products.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
 
-        res.render('cart', { cart, total, user: req.user });
+        res.render('cart', { cart, total, user: res.locals.user });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Error reading products file', error: error.message });
+        console.error('Error fetching cart:', error);
+        res.status(500).render('error', { message: 'Error fetching cart', user: res.locals.user });
     }
 });
 
