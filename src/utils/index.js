@@ -1,11 +1,13 @@
 import { fileURLToPath } from 'url';
-import { dirname } from 'path';
+import path from 'path';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import passport from 'passport';
 
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const __dirname = path.dirname(__filename);
+const rootPath = path.resolve(__dirname, '..', '..');
+export { rootPath as __dirname };
 
 export const createHash = (password) => {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(10));
@@ -60,5 +62,3 @@ export const passportCall = (strategy) => {
         })(req, res, next);
     };
 };
-
-export default __dirname;

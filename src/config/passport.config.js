@@ -1,9 +1,12 @@
 import passport from 'passport';
 import local from 'passport-local';
-import userModel from '../models/users.model.js';
-import { createHash, isValidPassword } from '../utils.js';
+import { createHash, isValidPassword } from '../utils/index.js';
 import GitHubStrategy from 'passport-github2';
 import jwt from 'passport-jwt';
+import DAOFactory from '../daos/DAOFactory.js';
+import { PERSISTENCE } from './persistence.js';
+
+const userDAO = DAOFactory.getDAO('USER', PERSISTENCE);
 
 const LocalStrategy = local.Strategy;
 const JWTStrategy = jwt.Strategy;
@@ -22,13 +25,13 @@ const initializePassport = () => {
                 return done(null, false, { message: 'Todos los campos son obligatorios' });
             }
 
-            const user = await userModel.findOne({ email });
+            const user = await userDAO.findByEmail(email);
             if (user) {
                 return done(null, false, { message: 'El correo electrónico ya está registrado' });
             }
 
             const hashedPassword = createHash(password);
-            const newUser = await userModel.create({
+            const newUser = await userDAO.create({
                 first_name,
                 last_name,
                 email,
@@ -46,7 +49,7 @@ const initializePassport = () => {
         usernameField: 'email'
     }, async (email, password, done) => {
         try {
-            const user = await userModel.findOne({ email });
+            const user = await userDAO.findByEmail(email);
             if (!user) {
                 return done(null, false, { message: 'Usuario no encontrado' });
             }
@@ -65,7 +68,7 @@ const initializePassport = () => {
         callbackURL: process.env.GITHUB_CALLBACK_URL
     }, async (accessToken, refreshToken, profile, done) => {
         try {
-            const user = await userModel.findOne({ email: profile.emails[0].value });
+            const user = await userDAO.findByEmail(profile.emails[0].value);
             if (!user) {
         
                 const [first_name, last_name] = profile.displayName.split(' ');
@@ -78,7 +81,7 @@ const initializePassport = () => {
                     age: 18, 
                     githubId: profile.id 
                 }
-                const result = await userModel.create(newUser);
+                const result = await userDAO.create(newUser);
                 return done(null, result);
             }
             return done(null, user);
@@ -95,7 +98,7 @@ const initializePassport = () => {
         secretOrKey: process.env.JWT_SECRET
     }, async (jwt_payload, done) => {
         try {
-            const user = await userModel.findById(jwt_payload.user._id);
+            const user = await userDAO.findById(jwt_payload.user._id);
             if (user) {
                 return done(null, user);
             } else {
@@ -112,7 +115,7 @@ const initializePassport = () => {
 
     passport.deserializeUser(async (id, done) => {
         try {
-            const user = await userModel.findById(id);
+            const user = await userDAO.findById(id);
             done(null, user);
         } catch (error) {
             done(error);

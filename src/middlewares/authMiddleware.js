@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 
 export const auth = (role) => {
     return (req, res, next) => {
-        
+
         if (req.path === '/api/carts/quantity' && req.method === 'GET') {
             return next();
         }
@@ -13,6 +13,7 @@ export const auth = (role) => {
                 return next(err);
             }
             if (!user) {
+                console.log('Unauthorized');
                 return res.status(401).json({ message: 'Unauthorized' });
             }
             if (role && user.role !== role) {

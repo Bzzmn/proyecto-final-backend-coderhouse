@@ -95,7 +95,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Function to initialize cart quantity
 async function initializeCartQuantity() {
     try {
         const response = await fetch('/api/carts/quantity', {
@@ -137,4 +136,32 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+});
+
+async function logout(event) {
+    event.preventDefault(); // Prevent the default link behavior
+    try {
+        const response = await fetch('/api/users/logout', {
+            method: 'POST',
+            credentials: 'include'
+        });
+        if (response.ok) {
+            const data = await response.json();
+            alert(data.message);
+
+            localStorage.removeItem('cartQuantity');
+            window.location.href = '/';
+        } else {
+            const errorData = await response.json();
+            alert(`Error: ${errorData.message}`);
+        }
+    } catch (error) {
+        alert('Hubo un problema al cerrar la sesión.');
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const logoutButton = document.getElementById('logout-button');
+    logoutButton.addEventListener('click', logout);
+
 });

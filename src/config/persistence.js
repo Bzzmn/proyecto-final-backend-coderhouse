@@ -1,0 +1,1 @@
+export const PERSISTENCE = process.env.PERSISTENCE || 'MONGO';
