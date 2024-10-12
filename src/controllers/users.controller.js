@@ -1,3 +1,4 @@
+import userModel from "../models/users.model.js";
 import { 
     createUserService,
     loginUserService,
@@ -5,7 +6,8 @@ import {
     restorePasswordService, 
     githubLoginService,
     githubLoginCallbackService,
-    currentUserService
+    currentUserService,
+    getCurrentUserService
 } from "../services/users.service.js";
 
 export const createUserController = async (req, res, next) => {
@@ -70,3 +72,13 @@ export const currentUserController = async (req, res) => {
         res.status(500).json({ message: 'Error interno del servidor' });
     }
 }
+
+export const getCurrentUserController = async (req, res) => {
+    try {
+        const user = await getCurrentUserService(req.user._id);
+        res.render('currentUser', { user: user, title: 'Perfil de usuario' });
+    } catch (error) {
+        console.error('Error al obtener el usuario actual:', error);
+        res.status(500).json({ message: 'Error interno del servidor' });
+    }
+};

@@ -1,4 +1,4 @@
-import productModel from '../../models/product.model.js';
+import productModel from '../../../models/product.model.js';
 import ProductDAO from '../interfaces/ProductDAO.js';
 
 export default class MongoProductDAO extends ProductDAO {

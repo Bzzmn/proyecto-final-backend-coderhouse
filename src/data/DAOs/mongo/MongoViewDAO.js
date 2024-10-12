@@ -1,5 +1,6 @@
-import productModel from '../../models/product.model.js';
-import cartModel from '../../models/cart.model.js';
+import productModel from '../../../models/product.model.js';
+import cartModel from '../../../models/cart.model.js';
+import ticketModel from '../../../models/ticket.model.js';
 import ViewDAO from '../interfaces/ViewDAO.js';
 
 export default class MongoViewDAO extends ViewDAO {
@@ -39,5 +40,9 @@ export default class MongoViewDAO extends ViewDAO {
 
     async getCartByUserId(userId) {
         return await cartModel.findOne({ user: userId }).populate('products.product');
+    }
+
+    async getTicketByUserId(id) {
+        return await ticketModel.findById(id);
     }
 }

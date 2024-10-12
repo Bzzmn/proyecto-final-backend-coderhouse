@@ -1,9 +1,9 @@
 import passport from "passport";
 import { generateToken, createHash } from "../utils/index.js";
-import DAOFactory from "../daos/DAOFactory.js";
+import DAOFactory from "../data/DAOs/DAOFactory.js";
 import { PERSISTENCE } from "../config/persistence.js";
 
-const userDAO = DAOFactory.getDAO('USER', PERSISTENCE); 
+const userRepository = DAOFactory.getRepository('USER', PERSISTENCE); 
 
 export const createUserService = async (req, res, next) => {
     passport.authenticate('register', { session: false }, (err, user, info) => {
@@ -111,5 +111,13 @@ export const currentUserService = async (req, res) => {
         res.status(401).json({ status: 'error', message: 'No autorizado' });
         }
     })(req, res);
+}
+
+export const getCurrentUserService = async (userId) => {
+    const user = await userRepository.findCurrentById(userId);
+    if (!user) {
+        throw new Error('User not found');
+    }
+    return user;
 }
 

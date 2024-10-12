@@ -1,0 +1,94 @@
+<div class="min-h-screen bg-gray-100 text-gray-900 p-8">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl font-bold mb-2">¡Gracias por tu pedido!</h1>
+        <p class="text-gray-600 mb-8">
+            Tu pedido será procesado dentro de las próximas 24 horas durante días laborables. Te notificaremos por
+            correo electrónico una vez que tu pedido haya sido enviado.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="space-y-4">
+                <div class="flex justify-between">
+                    <span>Número de pedido</span>
+                    <span class="font-medium">{{orderNumber}}</span>
+                </div>
+                <div class="flex justify-between">
+                    <span>Fecha</span>
+                    <span class="font-medium">{{orderDate}}</span>
+                </div>
+                <div class="flex justify-between">
+                    <span>Método de pago</span>
+                    <span class="font-medium">{{paymentMethod}}</span>
+                </div>
+                <div class="flex justify-between">
+                    <span>Nombre</span>
+                    <span class="font-medium">{{customerName}}</span>
+                </div>
+                <div class="flex justify-between">
+                    <span>Dirección</span>
+                    <span class="font-medium">{{customerAddress}}</span>
+                </div>
+                <div class="flex justify-between">
+                    <span>Teléfono</span>
+                    <span class="font-medium">{{customerPhone}}</span>
+                </div>
+                <div class="flex justify-between">
+                    <span>Email</span>
+                    <span class="font-medium">{{customerEmail}}</span>
+                </div>
+
+                <div class="flex space-x-4 mt-8">
+                    <a href="/track-order/{{orderNumber}}"
+                        class="bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center">Seguir
+                        tu pedido</a>
+                    <a href="/"
+                        class="bg-white text-gray-900 border border-gray-300 hover:bg-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                        Volver a comprar
+                    </a>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-xl font-semibold mb-4">Resumen del pedido</h2>
+                <div class="space-y-4">
+                    {{#each orderItems}}
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 bg-gray-200 rounded-md mr-4 overflow-hidden">
+                                <img src="{{this.image}}" alt="{{this.name}}" class="w-full h-full object-cover">
+                            </div>
+                            <div>
+                                <p class="font-medium">{{this.name}}</p>
+                                <p class="text-sm text-gray-600">x{{this.quantity}}</p>
+                            </div>
+                        </div>
+                        <span class="font-medium">${{this.price}}</span>
+                    </div>
+                    {{/each}}
+                </div>
+                <div class="mt-6 space-y-2">
+                    <div class="flex justify-between">
+                        <span>Precio original</span>
+                        <span class="font-medium">${{originalPrice}}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Ahorros</span>
+                        <span class="text-green-600">-${{savings}}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Envío</span>
+                        <span class="font-medium">${{shippingCost}}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Impuestos</span>
+                        <span class="font-medium">${{taxAmount}}</span>
+                    </div>
+                    <div class="flex justify-between text-lg font-semibold mt-4">
+                        <span>Total</span>
+                        <span>${{totalAmount}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

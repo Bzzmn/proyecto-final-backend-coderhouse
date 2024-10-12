@@ -1,4 +1,4 @@
-import cartModel from '../../models/cart.model.js';
+import cartModel from '../../../models/cart.model.js';
 import CartDAO from '../interfaces/CartDAO.js';
 import mongoose from 'mongoose';
 
@@ -56,4 +56,13 @@ export default class MongoCartDAO extends CartDAO {
         const cart = await this.findByUser(userId);
         return cart ? cart.products.reduce((acc, curr) => acc + curr.quantity, 0) : 0;
     }
+
+    async updateCart(userId, products) {
+        return await cartModel.findOneAndUpdate(
+            { user: userId },
+            { $set: { products: products } }, 
+            { new: true }
+        ).populate('products.product');
+    }
 }
+

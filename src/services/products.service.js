@@ -1,10 +1,10 @@
-import DAOFactory from '../daos/DAOFactory.js';
+import DAOFactory from '../data/DAOs/DAOFactory.js';
 import { PERSISTENCE } from '../config/persistence.js';
 
-const productDAO = DAOFactory.getDAO('PRODUCT', PERSISTENCE);
+const productRepository = DAOFactory.getRepository('PRODUCT', PERSISTENCE);
 
 export const getProductsService = async () => {
-    const products = await productDAO.getAll();
+    const products = await productRepository.getAll();
     if (!products) {
         throw new Error('Products not found');
     }
@@ -12,7 +12,7 @@ export const getProductsService = async () => {
 };
 
 export const getProductByIdService = async (id) => {
-    const product = await productDAO.getById(id);
+    const product = await productRepository.getById(id);
     if (!product) {
         throw new Error('Product not found');
     }
@@ -20,15 +20,15 @@ export const getProductByIdService = async (id) => {
 }
 
 export const createProductService = async (product) => {
-    const newProduct = await productDAO.create(product);
+    const newProduct = await productRepository.create(product);
     if (!newProduct) {
         throw new Error('Error creating product');
     }
     return newProduct;
 }
 
-export const updateProductService = async (id, product) => {
-    const updatedProduct = await productDAO.update(id, product);
+export const updateProductService = async (id, productData) => {
+    const updatedProduct = await productRepository.update(id, productData);
     if (!updatedProduct) {
         throw new Error('Product not found');
     }
@@ -36,10 +36,9 @@ export const updateProductService = async (id, product) => {
 }
 
 export const deleteProductService = async (id) => {
-    const deletedProduct = await productDAO.delete(id);
+    const deletedProduct = await productRepository.delete(id);
     if (!deletedProduct) {
         throw new Error('Product not found');
     }
     return deletedProduct;
 }
-

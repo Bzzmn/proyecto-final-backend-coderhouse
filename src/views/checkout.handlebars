@@ -1,0 +1,229 @@
+<div class="min-h-screen bg-gray-100 text-gray-900 p-8">
+    <h1 class="text-3xl font-bold mb-8 text-center">Finalizar Compra</h1>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-screen-xl mx-auto">
+        <div class="space-y-8">
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-xl font-semibold mb-4">Dirección de Facturación</h2>
+                <form>
+                    <div class="flex space-x-4 mb-4">
+                        <label class="flex items-center">
+                            <input type="radio" name="addressType" class="mr-2" checked>
+                            <span>Individual</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="addressType" class="mr-2">
+                            <span>Empresa</span>
+                        </label>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium mb-1">Dirección Guardada</label>
+                        <div class="relative">
+                            <select
+                                class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5">
+                                <option value="">Elige una de tus direcciones guardadas</option>
+                                {{#each savedAddresses}}
+                                <option value="{{this.id}}">{{this.address}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label for="firstName" class="block text-sm font-medium mb-1">Nombre*</label>
+                            <input type="text" id="firstName"
+                                class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
+                                placeholder="Ingresa tu nombre">
+                        </div>
+                        <div>
+                            <label for="lastName" class="block text-sm font-medium mb-1">Apellido*</label>
+                            <input type="text" id="lastName"
+                                class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
+                                placeholder="Ingresa tu apellido">
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label for="phone" class="block text-sm font-medium mb-1">Número de Teléfono*</label>
+                        <div class="flex">
+                            <select
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-l-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5">
+                                <option>+1</option>
+                            </select>
+                            <input type="tel" id="phone"
+                                class="flex-grow bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
+                                placeholder="123-456-7890">
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label for="address" class="block text-sm font-medium mb-1">Dirección de Envío*</label>
+                        <textarea id="address"
+                            class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
+                            rows="3" placeholder="Ingresa aquí tu dirección"></textarea>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label for="country" class="block text-sm font-medium mb-1">País*</label>
+                            <select id="country"
+                                class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5">
+                                <option>Estados Unidos</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="city" class="block text-sm font-medium mb-1">Ciudad*</label>
+                            <select id="city"
+                                class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5">
+                                <option>San Francisco</option>
+                            </select>
+                        </div>
+                    </div>
+                    <label class="flex items-center">
+                        <input type="checkbox" class="mr-2">
+                        <span class="text-sm">Guardar los datos en la lista de direcciones</span>
+                    </label>
+                </form>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-xl font-semibold mb-4">Dirección de Entrega</h2>
+                <div class="space-y-2">
+                    <label class="flex items-center">
+                        <input type="radio" name="deliveryOption" value="same" class="mr-2" checked>
+                        <span>Entrega a la misma dirección</span>
+                    </label>
+                    <label class="flex items-center">
+                        <input type="radio" name="deliveryOption" value="another" class="mr-2">
+                        <span>Entrega a otra dirección</span>
+                    </label>
+                    <label class="flex items-center">
+                        <input type="radio" name="deliveryOption" value="pickup" class="mr-2">
+                        <span>Recoger en tienda</span>
+                    </label>
+                    <p class="text-sm text-gray-500 ml-6 hidden" id="pickupMessage">(Elige la tienda donde quieres
+                        recoger los productos)</p>
+                </div>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-xl font-semibold mb-4">Detalles de Pago</h2>
+                <div class="space-y-2">
+                    <label class="flex items-center">
+                        <input type="radio" name="paymentMethod" class="mr-2" checked>
+                        <span>En línea con tarjeta bancaria</span>
+                    </label>
+                    <label class="flex items-center">
+                        <input type="radio" name="paymentMethod" class="mr-2">
+                        <span>Cuotas en línea</span>
+                    </label>
+                    <p class="text-sm text-gray-500 ml-6">Tienes intereses del 1%/mes hasta el 31 de enero de 2024.</p>
+                    <label class="flex items-center">
+                        <input type="radio" name="paymentMethod" class="mr-2">
+                        <span>En línea con Tarjeta STAR</span>
+                    </label>
+                    <label class="flex items-center">
+                        <input type="radio" name="paymentMethod" class="mr-2">
+                        <span>Orden de pago</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="space-y-8">
+            <div class="space-y-4">
+                {{#if cart.products.length}}
+                {{#each cart.products}}
+                <div class="bg-white p-4 rounded-lg shadow-md flex gap-8 w-full">
+                    <div class="ms-3 w-16 h-16 bg-white rounded-md flex-shrink-0 overflow-hidden">
+                        {{#if this.thumbnails.[0]}}
+                        <img src="{{this.thumbnails.[0]}}" alt="{{this.title}}"
+                            class="w-full h-full object-cover rounded-md"
+                            onerror="this.onerror=null; this.src='/path/to/fallback-image.jpg'; this.classList.add('object-contain');">
+                        {{else}}
+                        <div class="w-full h-full flex items-center justify-center text-gray-500 text-xs">
+                            Sin imagen
+                        </div>
+                        {{/if}}
+                    </div>
+                    <div class="flex flex-col w-full pe-3">
+                        <h3 class="font-medium">{{this.title}}</h3>
+                        <div class="flex justify-between items-center mt-2">
+                            <span>${{this.price}} x {{this.quantity}}</span>
+                            <span class="font-medium">${{formatNumber this.subtotal 2 }}</span>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+                {{else}}
+                <p class="text-center text-gray-500">Tu carrito está vacío.</p>
+                {{/if}}
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-xl font-semibold mb-4">Resumen del Pedido</h2>
+                <div class="space-y-2">
+                    <div class="flex justify-between">
+                        <span>Total</span>
+                        <span class="font-medium">${{formatNumber cart.total 2}}</span>
+                    </div>
+                    <!-- Puedes agregar más detalles aquí como impuestos, envío, etc. si están disponibles -->
+                </div>
+                <button id="continue-to-payment"
+                    class="w-full bg-blue-600 text-white rounded-lg py-3 mt-6 hover:bg-blue-700 transition-colors">
+                    Continuar al pago
+                </button>
+                <div class="text-center mt-4">
+                    <a href="/" class="text-blue-600 hover:underline">
+                        Volver a Comprar →
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const deliveryOptions = document.querySelectorAll('input[name="deliveryOption"]');
+        const pickupMessage = document.getElementById('pickupMessage');
+
+        deliveryOptions.forEach(option => {
+            option.addEventListener('change', function () {
+                if (this.value === 'pickup') {
+                    pickupMessage.classList.remove('hidden');
+                } else {
+                    pickupMessage.classList.add('hidden');
+                }
+            });
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const continueToPaymentButton = document.getElementById('continue-to-payment');
+        if (continueToPaymentButton) {
+            continueToPaymentButton.addEventListener('click', async function (e) {
+                e.preventDefault();
+
+                try {
+                    const response = await fetch('/api/carts/purchase', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            // Aquí puedes incluir cualquier dato adicional necesario para el checkout
+                        }),
+                    });
+
+                    if (response.ok) {
+                        const result = await response.json();
+                        // Redirigir a la página de pago o mostrar un mensaje de éxito
+                        alert('Pedido realizado con éxito!');
+                        window.location.href = '/success'; // Asegúrate de tener esta ruta configurada
+                    } else {
+                        const errorData = await response.json();
+                        alert(`Error: ${errorData.message}`);
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Hubo un problema al procesar el pedido.');
+                }
+            });
+        }
+    });
+</script>

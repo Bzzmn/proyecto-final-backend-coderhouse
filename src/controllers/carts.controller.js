@@ -1,7 +1,9 @@
 import { 
     addProductToCart, 
     getCartQuantity, 
-    removeProductFromCart 
+    removeProductFromCart,
+    makePurchaseService, 
+    getCartService
 } from '../services/cart.service.js';
 
 export const addToCart = async (req, res) => {
@@ -59,5 +61,32 @@ export const removeFromCart = async (req, res) => {
     } catch (error) {
         console.error('Error removing product from cart:', error);
         res.status(500).json({ message: 'Error removing product from cart', error: error.message });
+    }
+};
+
+export const makePurchaseController = async (req, res) => {
+    console.log('inciando compra');
+    const userId = req.user?._id;
+
+    if (!userId) {
+        return res.status(400).json({ message: 'User ID is required' });
+    }
+
+    try {
+        const purchase = await makePurchaseService(userId);
+        res.status(200).json(purchase);
+    } catch (error) {
+        console.error('Error making purchase:', error);
+        res.status(500).json({ message: 'Error making purchase', error: error.message });
+    }
+};
+
+export const getCartController = async (req, res) => {
+    try {
+        const cart = await getCartService(req.user?._id);
+        res.status(200).json(cart);
+    } catch (error) {
+        console.error('Error getting cart:', error);
+        res.status(500).json({ message: 'Error getting cart', error: error.message });
     }
 };

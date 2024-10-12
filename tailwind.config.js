@@ -5,10 +5,21 @@ export default {
     './node_modules/flowbite/**/*.js'
   ],
   theme: {
-    extend: {},
+    extend: {
+      backdropFilter: {
+        'none': 'none',
+        'blur': 'blur(20px)',
+      }
+    },
   },
+  safelist: [
+    'bg-black/50',
+    'backdrop-blur-sm',
+    'opacity-100',
+    'hidden'
+  ],
   plugins: [
+    require('@tailwindcss/forms'),
     require('flowbite/plugin'),
   ],
 }
-

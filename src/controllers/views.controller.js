@@ -1,10 +1,10 @@
 import { 
     getHomeService, 
     getProductPageService,
-    getCartService
+    getCartService, 
+    getCheckoutService, 
+    getTicketService
  } from '../services/views.service.js';
-import productModel from '../models/product.model.js';
-import cartModel from '../models/cart.model.js';
 
 export const getHomeController = async (req, res) => {
     try {
@@ -68,3 +68,23 @@ export const getForgotPasswordController = async (req, res) => {
     }
 }
 
+export const getCheckoutController = async (req, res) => {
+
+    console.log(req.user._id);
+    try {
+        const cart = await getCheckoutService(req.user._id);
+        res.render('checkout', { cart , user: res.locals.user });
+    } catch (error) {
+        console.error('Error fetching checkout:', error);
+    }
+}
+
+export const getSuccessController = async (req, res) => {
+    try {
+        const ticket = await getTicketService(req.user._id);
+        res.render('success', { ticket, user: res.locals.user });
+    } catch (error) {
+        console.error('Error fetching success:', error);
+        res.status(500).render('error', { message: 'Error fetching success', user: res.locals.user });
+    }
+};

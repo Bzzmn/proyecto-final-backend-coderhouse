@@ -4,6 +4,7 @@ import productsRouter from './routes/products.router.js';
 import cartsRouter from './routes/carts.router.js';
 import viewsRouter from './routes/views.router.js';
 import usersRouter from './routes/users.router.js';
+import currentRouter from './routes/current.router.js';
 import { __dirname } from './utils/index.js';
 import mongoose from 'mongoose';
 import { auth, attachUser } from './middlewares/authMiddleware.js';
@@ -57,9 +58,7 @@ app.use('/api/carts', cartsRouter);
 app.use('/api/users', usersRouter);
 app.use('/', viewsRouter);
 
-app.use('/current', auth('admin'), (req, res) => {
-    res.send('Esta es una vista privada');
-});
+app.use('/current', auth('admin'), currentRouter);
 app.use((req, res, next) => {
     res.status(404).render('404', {
         title: '404 - Página no encontrada'
