@@ -29,6 +29,9 @@ async function connectToMongoDB() {
 };
 connectToMongoDB();
 
+console.log('__dirname:', __dirname);
+console.log('Views directory:', path.join(__dirname, 'views'));
+
 const hbs = create({
     runtimeOptions: {
         allowProtoPropertiesByDefault: true,
