@@ -6,8 +6,8 @@ import passport from 'passport';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const rootPath = path.resolve(__dirname, '..', '..');
-export { rootPath as __dirname };
+
+export { __dirname };
 
 export const createHash = (password) => {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(10));
