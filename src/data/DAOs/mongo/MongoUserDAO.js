@@ -1,5 +1,5 @@
 import userModel from '../../../models/users.model.js';
-import UserDAO from '../interfaces/userDAO.js';
+import UserDAO from '../interfaces/UserDAO.js';
 
 export default class MongoUserDAO extends UserDAO {
 
