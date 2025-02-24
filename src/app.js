@@ -11,9 +11,10 @@ import { auth, attachUser } from './middlewares/authMiddleware.js';
 import passport from 'passport';
 import initializePassport from './config/passport.config.js';
 import cookieParser from 'cookie-parser';
-import { helpers } from './helpers/handlebarsHelpers.js';
+
 import cors from 'cors';
 import path from 'path';
+import { configureHandlebars } from './config/handlebars.config.js';
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -32,18 +33,7 @@ connectToMongoDB();
 console.log('__dirname:', __dirname);
 console.log('Views directory:', path.join(__dirname, 'views'));
 
-const hbs = create({
-    runtimeOptions: {
-        allowProtoPropertiesByDefault: true,
-        allowProtoMethodsByDefault: true,
-    },
-    helpers: helpers,
-    partialsDir: path.join(__dirname, 'views', 'partials'),
-});
-
-app.engine('handlebars', hbs.engine);
-app.set('view engine', 'handlebars')
-app.set('views', path.join(__dirname, 'views'));
+const hbs = configureHandlebars(app);
 
 app.use(cors());
 app.use(express.json());
@@ -58,7 +48,7 @@ initializePassport();
 app.use(passport.initialize());
 
 app.use('/api/products', productsRouter);
-app.use('/api/carts', cartsRouter);
+// app.use('/api/carts', cartsRouter);
 app.use('/api/users', usersRouter);
 app.use('/', viewsRouter);
 
@@ -72,3 +62,5 @@ app.use((req, res, next) => {
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
+
+export default app;

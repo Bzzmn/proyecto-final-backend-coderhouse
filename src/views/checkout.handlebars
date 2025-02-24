@@ -124,42 +124,16 @@
             </div>
         </div>
         <div class="space-y-8">
-            <div class="space-y-4">
-                {{#if cart.products.length}}
-                {{#each cart.products}}
-                <div class="bg-white p-4 rounded-lg shadow-md flex gap-8 w-full">
-                    <div class="ms-3 w-16 h-16 bg-white rounded-md flex-shrink-0 overflow-hidden">
-                        {{#if this.thumbnails.[0]}}
-                        <img src="{{this.thumbnails.[0]}}" alt="{{this.title}}"
-                            class="w-full h-full object-cover rounded-md"
-                            onerror="this.onerror=null; this.src='/path/to/fallback-image.jpg'; this.classList.add('object-contain');">
-                        {{else}}
-                        <div class="w-full h-full flex items-center justify-center text-gray-500 text-xs">
-                            Sin imagen
-                        </div>
-                        {{/if}}
-                    </div>
-                    <div class="flex flex-col w-full pe-3">
-                        <h3 class="font-medium">{{this.title}}</h3>
-                        <div class="flex justify-between items-center mt-2">
-                            <span>${{this.price}} x {{this.quantity}}</span>
-                            <span class="font-medium">${{formatNumber this.subtotal 2 }}</span>
-                        </div>
-                    </div>
-                </div>
-                {{/each}}
-                {{else}}
-                <p class="text-center text-gray-500">Tu carrito está vacío.</p>
-                {{/if}}
+            <div class="space-y-4 cart-products-container">
+                <!-- Los productos del carrito se cargarán aquí dinámicamente -->
             </div>
             <div class="bg-white p-6 rounded-lg shadow-md">
                 <h2 class="text-xl font-semibold mb-4">Resumen del Pedido</h2>
                 <div class="space-y-2">
                     <div class="flex justify-between">
                         <span>Total</span>
-                        <span class="font-medium">${{formatNumber cart.total 2}}</span>
+                        <span class="font-medium cart-total">$0.00</span>
                     </div>
-                    <!-- Puedes agregar más detalles aquí como impuestos, envío, etc. si están disponibles -->
                 </div>
                 <button id="continue-to-payment"
                     class="w-full bg-blue-600 text-white rounded-lg py-3 mt-6 hover:bg-blue-700 transition-colors">
@@ -192,38 +166,4 @@
     });
 </script>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const continueToPaymentButton = document.getElementById('continue-to-payment');
-        if (continueToPaymentButton) {
-            continueToPaymentButton.addEventListener('click', async function (e) {
-                e.preventDefault();
-
-                try {
-                    const response = await fetch('/api/carts/purchase', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            // Aquí puedes incluir cualquier dato adicional necesario para el checkout
-                        }),
-                    });
-
-                    if (response.ok) {
-                        const result = await response.json();
-                        // Redirigir a la página de pago o mostrar un mensaje de éxito
-                        alert('Pedido realizado con éxito!');
-                        window.location.href = '/success'; // Asegúrate de tener esta ruta configurada
-                    } else {
-                        const errorData = await response.json();
-                        alert(`Error: ${errorData.message}`);
-                    }
-                } catch (error) {
-                    console.error('Error:', error);
-                    alert('Hubo un problema al procesar el pedido.');
-                }
-            });
-        }
-    });
-</script>
+<script src="/js/checkout.js"></script>

@@ -7,7 +7,8 @@ import {
     getLoginController, 
     getForgotPasswordController,
     getCheckoutController,
-    getSuccessController
+    getSuccessController,
+    getCartProductCardController
 } from '../controllers/views.controller.js';
 
 const router = Router();
@@ -20,5 +21,6 @@ router.get('/login', getLoginController);
 router.get('/forgot-password', getForgotPasswordController);
 router.get('/checkout', getCheckoutController);
 router.get('/success', getSuccessController);
+router.get('/api/cart/product-card', getCartProductCardController);
 
 export default router;

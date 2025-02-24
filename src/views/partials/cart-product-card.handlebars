@@ -1,66 +1,61 @@
-<div id="product-card-{{product._id}}"
-  class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-6">
-  <div class="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0 w-full">
+<div id="product-card-{{product._id}}" class="rounded-lg border border-gray-200 bg-white p-3 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-4">
+  <div class="flex justify-between w-full">
+    <!-- Imagen del producto -->
+    <div class="flex items-center w-full sm:w-auto">
+      <a href="#" class="shrink-0">
+        <img class="h-16 w-16 md:h-20 md:w-20 rounded-lg object-cover dark:hidden" src={{product.thumbnails}} alt="{{product.title}}" />
+      </a>
 
-    <a href="#" class="shrink-0 md:order-0">
-      <img class="h-20 w-20 dark:hidden" src={{product.thumbnails}} alt="product image" />
-    </a>
+    </div>
+
+    <!-- Control de cantidad y precio -->
+    <div class="flex flex-col items-start justify-between w-full min-w-[300px] sm:w-auto mt-3 sm:mt-0">
+
+      <div class="flex justify-between w-full mt-3">
+
+         <a href="#" class=" text-md md:text-base font-medium text-gray-900 dark:text-white line-clamp-2">{{product.title}}</a>
+
+                   <button data-id="{{product._id}}" type="button" class="remove-btn inline-flex items-center text-xs md:text-sm font-medium text-red-600 dark:text-red-500">
+ <svg class="me-1.5 h-4 w-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"/>
+            </svg>
+            <span class="hidden sm:inline">Remove</span>
+          </button>
 
 
-    <div class="flex items-center justify-between md:order-2 gap-16">
-      <label for="counter-input-{{product._id}}" class="sr-only">Choose quantity:</label>
-      <div class="flex items-center">
-        <button type="button"
-          class="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700">
-          <svg class="h-2.5 w-2.5 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-            fill="none" viewBox="0 0 18 2">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16" />
-          </svg>
-        </button>
-        <input type="text" id="counter-input-{{product._id}}"
-          class="w-10 shrink-0 border-0 bg-transparent text-center text-sm font-medium text-gray-900 focus:outline-none focus:ring-0 dark:text-white"
-          value="{{quantity}}" required />
-        <button type="button"
-          class="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700">
-          <svg class="h-2.5 w-2.5 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-            fill="none" viewBox="0 0 18 18">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M9 1v16M1 9h16" />
-          </svg>
-        </button>
       </div>
-      <div class="text-end md:order-4 md:w-32">
-        <p class="text-2xl md:text-lg font-bold text-gray-900 dark:text-white">${{{multiply product.price quantity}}}
+
+   
+    <div class="flex items-center justify-between w-full sm:w-auto gap-4 mt-3 sm:mt-0">
+           
+      <div class="flex items-center">
+        <label for="counter-input-{{product._id}}" class="sr-only">Choose quantity:</label>
+        <div class="flex items-center bg-gray-50 rounded-lg dark:bg-gray-700 p-1">
+          <button type="button" class="decrease-quantity inline-flex h-5 w-5 items-center justify-center rounded-md border border-gray-300 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-600 dark:hover:bg-gray-500">
+            <svg class="h-2 w-2 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16" />
+            </svg>
+          </button>
+          <input type="text" id="counter-input-{{product._id}}" data-product-id="{{product._id}}"
+            class="quantity-input w-8 border-0 bg-transparent text-center text-sm font-medium text-gray-900 focus:outline-none focus:ring-0 dark:text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+            value="{{quantity}}" 
+            min="1"
+            type="number"
+            required />
+          <button type="button" class="increase-quantity inline-flex h-5 w-5 items-center justify-center rounded-md border border-gray-300 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-600 dark:hover:bg-gray-500">
+            <svg class="h-2 w-2 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="text-end">
+        <p class="text-lg md:text-xl font-bold text-gray-900 dark:text-white whitespace-nowrap" data-price="{{product.price}}">
+          ${{multiply product.price quantity}}
         </p>
       </div>
     </div>
 
-
-
-    <div class=" min-w-0 flex-1 space-y-4 md:order-1 md:max-w-md">
-      <a href="#" class="text-base font-medium text-gray-900 hover:underline dark:text-white">{{product.title}}</a>
-      <div class="flex items-center gap-4">
-        <button type="button"
-          class="inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-900 hover:underline dark:text-gray-400 dark:hover:text-white">
-          <svg class="me-1.5 h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-            fill="none" viewBox="0 0 24 24">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z" />
-          </svg>
-          Add to Favorites
-        </button>
-        <button data-id="{{product._id}}" type="button"
-          class="remove-btn inline-flex items-center text-sm font-medium text-red-600 hover:underline dark:text-red-500">
-          <svg class="me-1.5 h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-            fill="none" viewBox="0 0 24 24">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M6 18 17.94 6M18 18 6.06 6" />
-          </svg>
-          Remove
-        </button>
-      </div>
-    </div>
-
-
+     </div>
   </div>
 </div>

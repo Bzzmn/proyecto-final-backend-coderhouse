@@ -4,6 +4,7 @@ import DAOFactory from "../data/DAOs/DAOFactory.js";
 import { PERSISTENCE } from "../config/persistence.js";
 
 const userRepository = DAOFactory.getRepository('USER', PERSISTENCE); 
+const userDAO = DAOFactory.getRepository('USER', PERSISTENCE);
 
 export const createUserService = async (req, res, next) => {
     passport.authenticate('register', { session: false }, (err, user, info) => {

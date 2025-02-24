@@ -10,6 +10,9 @@
 
 <body class="flex flex-col h-[100dvh]">
 
+        <!-- Toast notification container -->
+
+
     <nav class="bg-yellow-300 border-gray-200 dark:bg-gray-900 dark:border-gray-700 h-auto">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
@@ -90,7 +93,7 @@
                     </li>
                     {{#if user}}
                     <button class="relative">
-                        <a href="/cart" class="nav-cart-button">
+                        <a href="/cart" class="nav-cart-button h-15 w-15 sm:h-10 sm:w-10">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" fill="currentColor"
                                 class="w-5 h-5 text-gray-900 hover:text-blue-700">
                                 <path
@@ -167,64 +170,229 @@
         </div>
     </div>
 
+    <div id="toast-container" class="fixed bottom-1 right-1 z-50 pointer-events-none">
+        <!-- Los toasts se agregarán aquí dinámicamente -->
+    </div>
+
+
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.js"></script>
     <script src="/js/home.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script>
+        function updateCartBadge() {
+            const cartBadge = document.getElementById('cart-badge');
+            if (cartBadge) {
+                const quantity = localStorage.getItem('cartQuantity') || '0';
+                cartBadge.textContent = quantity;
+                cartBadge.style.display = quantity === '0' ? 'none' : 'flex';
+                console.log('Badge actualizado con cantidad:', quantity);
+            }
+        }
+
+        // Hacer la función disponible globalmente
+        window.updateCartBadge = updateCartBadge;
+
+        // Actualizar el badge cuando se carga la página
+        document.addEventListener('DOMContentLoaded', updateCartBadge);
+
         document.addEventListener('DOMContentLoaded', function() {
             // Update cart badge function
             function updateCartBadge() {
-                const cartQuantityBadge = document.querySelector('.cart-quantity-badge');
-                if (cartQuantityBadge) {
+                const cartBadge = document.getElementById('cart-badge');
+                if (cartBadge) {
                     const quantity = localStorage.getItem('cartQuantity') || '0';
-                    cartQuantityBadge.textContent = quantity;
-                    cartQuantityBadge.classList.toggle('hidden', quantity === '0');
+                    cartBadge.textContent = quantity;
+                    cartBadge.style.display = quantity === '0' ? 'none' : 'flex';
                 }
+            }
+
+            // Función para cargar los productos en el sidebar
+            async function loadCartProducts() {
+                const cartContainer = document.querySelector('#shopping-cart .flex-grow');
+                if (!cartContainer) return;
+
+                const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+                console.log('Cargando productos del carrito:', cart);
+
+                if (cart.length === 0) {
+                    cartContainer.innerHTML = '<p class="text-center text-gray-500">Tu carrito está vacío</p>';
+                    return;
+                }
+
+                try {
+                    // Hacer una petición para obtener el HTML del partial para cada producto
+                    const productsHtml = await Promise.all(cart.map(async (item) => {
+                        const response = await fetch(`/api/cart/product-card?` + new URLSearchParams({
+                            productId: item.productCode,
+                            quantity: item.quantity,
+                            price: item.productPrice,
+                            title: item.productTitle,
+                            thumbnails: item.productImage
+                        }));
+                        if (!response.ok) throw new Error('Error al cargar el producto');
+                        return await response.text();
+                    }));
+
+                    cartContainer.innerHTML = productsHtml.join('');
+
+                    // Agregar event listeners a los botones de eliminar
+                    const removeButtons = cartContainer.querySelectorAll('.remove-btn');
+                    removeButtons.forEach(button => {
+                        button.addEventListener('click', function() {
+                            const productId = this.getAttribute('data-id');
+                            removeFromCart(productId);
+                        });
+                    });
+                } catch (error) {
+                    console.error('Error al cargar los productos:', error);
+                    cartContainer.innerHTML = '<p class="text-center text-red-500">Error al cargar los productos</p>';
+                }
+            }
+
+            // Función para eliminar producto del carrito
+            function removeFromCart(productId) {
+                const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+                const newCart = cart.filter(item => item.productCode !== productId);
+                localStorage.setItem('cart', JSON.stringify(newCart));
+                
+                // Actualizar cantidad total
+                const totalQuantity = newCart.reduce((sum, item) => sum + item.quantity, 0);
+                localStorage.setItem('cartQuantity', totalQuantity.toString());
+                
+                updateCartBadge();
+                loadCartProducts(); // Recargar productos
             }
 
             // Call updateCartBadge on page load
             updateCartBadge();
 
-            // Listen for custom event to update cart quantity
-            window.addEventListener('updateCartQuantity', function(e) {
-                if (e && e.detail) {
-                    localStorage.setItem('cartQuantity', e.detail.quantity);
-                    updateCartBadge();
-                }
-            });
-
-            // Expose updateCartBadge function globally
-            window.updateCartBadge = updateCartBadge;
-
             // Cart button functionality
-            const cartButton = document.querySelector('.nav-cart-button');
+            const cartButton = document.querySelector('a[href="/cart"]');
             const shoppingCart = document.getElementById('shopping-cart');
             const closeCart = document.getElementById('close-cart');
 
             if (cartButton && shoppingCart && closeCart) {
-                const cartOverlay = document.createElement('div');
-                cartOverlay.id = 'cart-overlay';
-                cartOverlay.className = 'fixed inset-0 bg-black bg-opacity-50 z-30 hidden transition-opacity duration-300 ease-in-out backdrop-blur-sm';
-                document.body.appendChild(cartOverlay);
-
-                // Add event listeners only if elements exist
-                cartButton.addEventListener('click', () => {
+                cartButton.addEventListener('click', (e) => {
+                    e.preventDefault();
                     shoppingCart.classList.remove('translate-x-full');
+                    loadCartProducts(); // Cargar productos cuando se abre el sidebar
+                    
+                    let cartOverlay = document.getElementById('cart-overlay');
+                    if (!cartOverlay) {
+                        cartOverlay = document.createElement('div');
+                        cartOverlay.id = 'cart-overlay';
+                        cartOverlay.className = 'fixed inset-0 bg-black bg-opacity-50 z-30 hidden transition-opacity duration-300 ease-in-out backdrop-blur-sm';
+                        document.body.appendChild(cartOverlay);
+                    }
                     cartOverlay.classList.remove('hidden');
                 });
 
                 closeCart.addEventListener('click', () => {
                     shoppingCart.classList.add('translate-x-full');
-                    cartOverlay.classList.add('hidden');
+                    const cartOverlay = document.getElementById('cart-overlay');
+                    if (cartOverlay) {
+                        cartOverlay.classList.add('hidden');
+                    }
                 });
 
-                cartOverlay.addEventListener('click', () => {
-                    shoppingCart.classList.add('translate-x-full');
-                    cartOverlay.classList.add('hidden');
+                document.addEventListener('click', (e) => {
+                    if (e.target.id === 'cart-overlay') {
+                        shoppingCart.classList.add('translate-x-full');
+                        e.target.classList.add('hidden');
+                    }
                 });
             }
         });
+
+        // Función para mostrar el toast
+        function showToast(message, type = 'success') {
+            const toastContainer = document.getElementById('toast-container');
+            
+            const toast = document.createElement('div');
+            toast.className = `pointer-events-auto flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow-lg dark:text-gray-400 dark:bg-gray-800 transition-all duration-300 transform translate-y-full opacity-0`;
+            
+            const types = {
+                success: {
+                    icon: `<svg class="w-5 h-5 text-green-500 dark:text-green-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                    </svg>`,
+                    bgColor: 'bg-white'
+                },
+                error: {
+                    icon: `<svg class="w-5 h-5 text-red-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 11.793a1 1 0 1 1-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L8.586 10 6.293 7.707a1 1 0 0 1 1.414-1.414L10 8.586l2.293-2.293a1 1 0 0 1 1.414 1.414L11.414 10l2.293 2.293Z"/>
+                    </svg>`,
+                    bgColor: 'bg-white'
+                }
+            };
+
+            toast.innerHTML = `
+                <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8">
+                    ${types[type].icon}
+                </div>
+                <div class="ms-3 text-sm font-normal">${message}</div>
+                <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" onclick="this.parentElement.remove()">
+                    <span class="sr-only">Close</span>
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    </svg>
+                </button>
+            `;
+
+            // Limpiar toasts antiguos si hay más de 3
+            while (toastContainer.children.length >= 3) {
+                toastContainer.removeChild(toastContainer.firstChild);
+            }
+
+            toastContainer.appendChild(toast);
+
+            // Animación de entrada
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    toast.classList.remove('translate-y-full', 'opacity-0');
+                    toast.classList.add('translate-y-0', 'opacity-100');
+                });
+            });
+
+            // Auto-eliminar después de 3 segundos
+            const timeoutId = setTimeout(() => {
+                if (toast.parentElement) {
+                    toast.classList.add('translate-y-full', 'opacity-0');
+                    setTimeout(() => {
+                        if (toast.parentElement) {
+                            toast.remove();
+                        }
+                    }, 300);
+                }
+            }, 3000);
+
+            // Pausar el timeout al pasar el mouse
+            toast.addEventListener('mouseenter', () => {
+                clearTimeout(timeoutId);
+            });
+
+            // Reanudar el timeout al quitar el mouse
+            toast.addEventListener('mouseleave', () => {
+                setTimeout(() => {
+                    if (toast.parentElement) {
+                        toast.classList.add('translate-y-full', 'opacity-0');
+                        setTimeout(() => {
+                            if (toast.parentElement) {
+                                toast.remove();
+                            }
+                        }, 300);
+                    }
+                }, 1000);
+            });
+        }
+
+        // Hacer la función disponible globalmente
+        window.showToast = showToast;
     </script>
+
+
+
+
 </body>
 
 </html>

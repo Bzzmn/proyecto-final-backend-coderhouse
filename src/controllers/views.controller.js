@@ -88,3 +88,67 @@ export const getSuccessController = async (req, res) => {
         res.status(500).render('error', { message: 'Error fetching success', user: res.locals.user });
     }
 };
+
+export const getCartProductCardController = async (req, res) => {
+    try {
+        const { productId, quantity, price, title, thumbnails } = req.query;
+        
+        res.render('partials/cart-product-card', {
+            layout: false, // Important: don't use the main layout
+            product: {
+                _id: productId,
+                price: parseFloat(price),
+                title,
+                thumbnails
+            },
+            quantity: parseInt(quantity)
+        });
+    } catch (error) {
+        console.error('Error rendering product card:', error);
+        res.status(500).send('Error rendering product card');
+    }
+};
+
+export const getProductViewController = async (req, res) => {
+    try {
+        const { pid } = req.params;
+        
+        // Validar que pid sea un ObjectId válido
+        if (!pid.match(/^[0-9a-fA-F]{24}$/)) {
+            return res.status(400).render('error', { 
+                error: 'ID de producto inválido' 
+            });
+        }
+
+        const product = await productsService.getProductById(pid);
+        
+        if (!product) {
+            return res.status(404).render('error', { 
+                error: 'Producto no encontrado' 
+            });
+        }
+
+        // Asegurarse de que el producto sea un objeto plano
+        const productToRender = {
+            _id: product._id.toString(),
+            title: product.title,
+            description: product.description,
+            price: product.price,
+            thumbnails: product.thumbnails,
+            stock: product.stock,
+            category: product.category,
+            code: product.code,
+            status: product.status
+        };
+
+        return res.render('product', { 
+            product: productToRender
+        });
+
+    } catch (error) {
+        console.error('Error al obtener producto:', error);
+        return res.status(500).render('error', { 
+            error: 'Error al cargar el producto' 
+        });
+    }
+};
