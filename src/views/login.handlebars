@@ -56,34 +56,39 @@
 </div>
 
 <script>
-    document.getElementById('login-form').addEventListener('submit', function (e) {
-        e.preventDefault();
+    document.addEventListener('DOMContentLoaded', () => {
+        const loginForm = document.getElementById('login-form');
+        if (loginForm) {
+            loginForm.addEventListener('submit', function (e) {
+                e.preventDefault();
 
-        const formData = new FormData(this);
-        const data = Object.fromEntries(formData.entries());
+                const formData = new FormData(this);
+                const data = Object.fromEntries(formData.entries());
 
-        fetch('/api/users/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data)
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    window.location.href = '/'; // Redirigir a la página de inicio en caso de éxito
-                } else {
-                    const errorDiv = document.getElementById('error-message');
-                    errorDiv.textContent = data.message;
-                    errorDiv.classList.remove('hidden');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                const errorDiv = document.getElementById('error-message');
-                errorDiv.textContent = 'Ocurrió un error. Por favor, inténtelo de nuevo.';
-                errorDiv.classList.remove('hidden');
+                fetch('/api/users/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            window.location.href = '/'; // Redirigir a la página de inicio en caso de éxito
+                        } else {
+                            const errorDiv = document.getElementById('error-message');
+                            errorDiv.textContent = data.message;
+                            errorDiv.classList.remove('hidden');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        const errorDiv = document.getElementById('error-message');
+                        errorDiv.textContent = 'Ocurrió un error. Por favor, inténtelo de nuevo.';
+                        errorDiv.classList.remove('hidden');
+                    });
             });
+        }
     });
 </script>

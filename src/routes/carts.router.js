@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { auth } from '../middlewares/authMiddleware.js';
 import { 
-    addToCart, 
+    addToCartController, 
     getCartQuantityController, 
     removeFromCart, 
     makePurchaseController,
@@ -10,7 +10,7 @@ import {
 
 const router = Router();
 
-router.post('/', auth('user'), addToCart);
+router.post('/', auth('user'), addToCartController);
 router.get('/quantity', getCartQuantityController);
 router.delete('/product/:pid', auth('user'), removeFromCart);
 router.post('/purchase', auth('user'), makePurchaseController);

@@ -52,34 +52,42 @@
 </div>
 
 <script>
-    document.getElementById('register-form').addEventListener('submit', function (e) {
-        e.preventDefault();
+    document.addEventListener('DOMContentLoaded', () => {
+        const registerForm = document.getElementById('register-form');
+        if (registerForm) {
+            registerForm.addEventListener('submit', function (e) {
+                e.preventDefault();
 
-        const formData = new FormData(this);
-        const data = Object.fromEntries(formData.entries());
-
-        fetch('/api/users/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data)
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    window.location.href = '/'; // Redirigir a la página principal en caso de éxito
-                } else {
-                    const errorDiv = document.getElementById('error-message');
-                    errorDiv.textContent = data.message;
-                    errorDiv.classList.remove('hidden');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
+                const formData = new FormData(this);
+                const data = Object.fromEntries(formData.entries());
                 const errorDiv = document.getElementById('error-message');
-                errorDiv.textContent = 'Ocurrió un error. Por favor, inténtelo de nuevo.';
-                errorDiv.classList.remove('hidden');
+
+                fetch('/api/users/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            window.location.href = '/'; // Redirigir a la página principal en caso de éxito
+                        } else {
+                            if (errorDiv) {
+                                errorDiv.textContent = data.message;
+                                errorDiv.classList.remove('hidden');
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        if (errorDiv) {
+                            errorDiv.textContent = 'Ocurrió un error. Por favor, inténtelo de nuevo.';
+                            errorDiv.classList.remove('hidden');
+                        }
+                    });
             });
+        }
     });
 </script>

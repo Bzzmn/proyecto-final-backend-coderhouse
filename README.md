@@ -56,34 +56,99 @@ Libre Mercado es un sistema backend para una aplicación de comercio electrónic
      npm start
      ```
 
-## Estructura de Archivos
+## Estructura del Proyecto
 ```
-├── src
-│   ├── config
-│   │   └── passport.config.js
-│   ├── models
-│   │   ├── users.model.js
+├── src/
+│   ├── config/
+│   │   └── passport.config.js     # Configuración de autenticación
+│   ├── controllers/
+│   │   ├── carts.controller.js
+│   │   ├── products.controller.js
+│   │   └── users.controller.js
+│   ├── data/
+│   │   ├── DAOs/
+│   │   │   └── DAOFactory.js
+│   │   └── products.json
+│   ├── helpers/
+│   │   └── handlebarsHelpers.js
+│   ├── middlewares/
+│   │   └── authMiddleware.js
+│   ├── models/
+│   │   ├── carts.model.js
 │   │   ├── products.model.js
-│   │   └── carts.model.js
-│   ├── routes
-│   │   ├── users.router.js
-│   │   ├── products.router.js
+│   │   └── users.model.js
+│   ├── public/
+│   │   ├── css/
+│   │   ├── images/
+│   │   ├── js/
+│   │   └── uploads/
+│   ├── routes/
 │   │   ├── carts.router.js
+│   │   ├── current.router.js
+│   │   ├── products.router.js
+│   │   ├── users.router.js
 │   │   └── views.router.js
-│   ├── views
-│   │   ├── layouts
+│   ├── scripts/
+│   │   └── seedProducts.js
+│   ├── services/
+│   │   ├── carts.service.js
+│   │   ├── products.service.js
+│   │   └── users.service.js
+│   ├── utils/
+│   │   └── index.js
+│   ├── views/
+│   │   ├── layouts/
 │   │   │   └── main.handlebars
 │   │   ├── 404.handlebars
 │   │   ├── login.handlebars
+│   │   ├── product.handlebars
 │   │   ├── register.handlebars
 │   │   └── restore-password.handlebars
-│   ├── public
-│   │   └── css
-│   │       └── styles.css
-│   ├── app.js
-│   └── utils.js
-
+│   └── app.js
+├── test/
+│   ├── MongoSingleton.js
+│   └── test.js
+├── .dockerignore
+├── .env
+├── .env.development
+├── .gitignore
+├── Dockerfile
+├── README.md
+└── package.json
 ```
+
+## Tecnologías Utilizadas
+
+### Backend
+- Node.js 20.x
+- Express.js
+- MongoDB con Mongoose
+- Passport.js (Autenticación)
+- JWT (JSON Web Tokens)
+
+### Frontend
+- Handlebars (Server-side rendering)
+- Tailwind CSS
+- Flowbite (Componentes UI)
+
+### DevOps
+- Docker
+- Git
+
+### Testing
+- Custom MongoDB Singleton Pattern Testing
+
+### Herramientas de Desarrollo
+- Nodemon
+- dotenv
+- cors
+
+## Scripts Disponibles
+
+- `npm start`: Inicia la aplicación en modo producción
+- `npm run dev`: Inicia la aplicación en modo desarrollo con hot-reload
+- `npm run build:css`: Compila los estilos de Tailwind CSS
+- `npm run seed`: Carga datos de prueba en la base de datos
 
 ## Endpoints de API
 

@@ -1,26 +1,14 @@
 import { 
-    addProductToCart, 
-    getCartQuantity, 
+    addProductToCartService, 
+    getCartQuantityService, 
     removeProductFromCart,
     makePurchaseService, 
     getCartService
 } from '../services/cart.service.js';
 
-export const addToCart = async (req, res) => {
-    const userId = req.user?._id;
-    const { productId, quantity: rawQuantity = 1 } = req.body;
-    const quantity = Math.max(1, rawQuantity);
-
-    if(!userId) {
-        return res.status(400).json({ message: 'User ID is required' });
-    }
-
-    if(!productId) {
-        return res.status(400).json({ message: 'Product ID is required' });
-    }
-
+export const addToCartController = async (req, res) => {
     try {
-        const updatedCart = await addProductToCart(userId, productId, quantity);
+        const updatedCart = await addProductToCartService(req, res);
         res.status(200).json(updatedCart);
     } catch (error) {
         res.status(500).json({ message: 'Error adding product to cart', error: error.message });
@@ -28,18 +16,28 @@ export const addToCart = async (req, res) => {
 };
 
 export const getCartQuantityController = async (req, res) => {
-    const userId = req.user?._id;
-
-    if (!userId) {
-        return res.status(200).json({ quantity: 0 });
-    }
-
     try {
-        const quantity = await getCartQuantity(userId);
-        res.status(200).json({ quantity });
+        const cart = await getCartService(req.user?._id);
+        
+        // If no cart exists, return 0
+        if (!cart) {
+            return res.json({ quantity: 0 });
+        }
+
+        // Calculate total quantity from cart items
+        const totalQuantity = cart.products.reduce((total, item) => {
+            return total + (item.quantity || 0);
+        }, 0);
+
+        return res.json({ quantity: totalQuantity });
     } catch (error) {
-        console.error('Error fetching cart quantity:', error);
-        res.status(500).json({ message: 'Error fetching cart quantity', error: error.message });
+        console.error('Error in getCartQuantityController:', error);
+        // Only send one response
+        return res.status(500).json({ 
+            status: 'error',
+            message: 'Error fetching cart quantity',
+            quantity: 0 
+        });
     }
 };
 

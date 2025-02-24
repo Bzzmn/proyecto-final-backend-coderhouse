@@ -6,7 +6,20 @@ const productRepository = DAOFactory.getRepository('PRODUCT', PERSISTENCE);
 const userRepository = DAOFactory.getRepository('USER', PERSISTENCE);
 const ticketRepository = DAOFactory.getRepository('TICKET', PERSISTENCE);
 
-export const addProductToCart = async (userId, productId, quantity) => {
+export const addProductToCartService = async (req, res) => {
+
+    const userId = req.user?._id;
+    const { productId, quantity: rawQuantity = 1 } = req.body;
+    const quantity = Math.max(1, rawQuantity);
+
+    if(!userId) {
+        return res.status(400).json({ message: 'User ID is required' });
+    }
+
+    if(!productId) {
+        return res.status(400).json({ message: 'Product ID is required' });
+    }
+
     try {
         return await cartRepository.addProduct(userId, productId, quantity);
     } catch (error) {
@@ -15,8 +28,20 @@ export const addProductToCart = async (userId, productId, quantity) => {
     }
 };
 
-export const getCartQuantity = async (userId) => {
-    return await cartRepository.getCartQuantity(userId);
+export const getCartQuantityService = async (req, res) => {
+
+    const userId = req.user?._id;
+
+    if (!userId) {
+        return res.status(200).json({ quantity: 0 });
+    }
+
+    try {
+        return await cartRepository.getCartQuantity(userId);
+    } catch (error) {
+        console.error('Error fetching cart quantity:', error);
+        throw error;
+    }
 };
 
 export const removeProductFromCart = async (userId, productId) => {
